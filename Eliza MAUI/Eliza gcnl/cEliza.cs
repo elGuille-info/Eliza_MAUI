@@ -165,7 +165,6 @@ public class cEliza
 
     private bool ModoConsulta; // para no usar static en ProcesarEntrada (27/ene/23 11.17)
 
-    // Esto es lo que en realidad hay que revisar porque no lo analiza... (24/ene/23 13.37)
     public string ProcesarEntrada(string sEntrada)
     {
         // Se procesará la entrada del usuario y devolverá la cadena con la respuesta
@@ -175,7 +174,6 @@ public class cEliza
         string sEntradaSimp;
         string sClaves = "";
         string sCopiaEntrada;
-        // Static ModoConsulta As Boolean
 
         int i;
         string sPalabra = "";
