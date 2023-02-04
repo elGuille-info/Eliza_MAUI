@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="Eliza_MAUI.ElizaMainPage"
+             Appearing="ContentPage_Appearing"
+             Title="ElizaMainPage">
+    <ScrollView>
+        <StackLayout>
+            <!-- Con un margin mínimo de 2 en el StackLayout que está después del Frame
+             se evita que se corte el borde del Frame en la pate inferior -->
+            <Frame Padding="6" Margin="4,4,4,8">
+                <StackLayout Margin="2">
+                    <StackLayout VerticalOptions="FillAndExpand">
+                        <Editor x:Name="txtSalida" 
+                                Text="Por favor, pulsa en 'Nueva sesión' para iniciar una nueva sesión." 
+                                FontFamily="Consolas" 
+                                MinimumHeightRequest="{OnIdiom Phone=500,Tablet=800,Default=600}"
+                                BackgroundColor="Black" TextColor="Lime"
+                                HorizontalOptions="FillAndExpand" VerticalOptions="FillAndExpand" />
+                    </StackLayout>
+                    <StackLayout Margin="0,4">
+                        <Entry x:Name="txtEntrada" FontFamily="Consolas"
+                               BackgroundColor="Black" TextColor="Lime"
+                               HorizontalOptions="FillAndExpand" 
+                               ClearButtonVisibility="WhileEditing"
+                               Completed="txtEntrada_Completed"/>
+                    </StackLayout>
+                    <StackLayout x:Name="GrbAviso" Padding="2"
+                                 BackgroundColor="Transparent">
+                        <Label x:Name="LabelAviso" TextColor="White" IsVisible="False"
+                               Text="Por favor indica el texto a analizar de al menos 3 caracteres" />
+                    </StackLayout>
+                </StackLayout>
+            </Frame>
+            <StackLayout VerticalOptions="EndAndExpand" HorizontalOptions="FillAndExpand">
+                <StackLayout Orientation="Horizontal" HorizontalOptions="FillAndExpand" Margin="8,0" 
+                             SizeChanged="StackLayoutStatus_SizeChanged">
+                    <Label x:Name="LabelStatus" Text="" FontSize="13"
+                           HorizontalOptions="StartAndExpand" HeightRequest="70">
+                        <Label.GestureRecognizers>
+                            <TapGestureRecognizer NumberOfTapsRequired="1" Tapped="TapGestureRecognizer_Tapped" />
+                        </Label.GestureRecognizers>
+                    </Label>
+                    <Button x:Name="BtnNuevaSesion" Text="Nueva sesión" 
+                            Margin="4,0" WidthRequest="120" HeightRequest="40"
+                            HorizontalOptions="End" VerticalOptions="Center"
+                            Clicked="BtnNuevaSesion_Clicked"/>
+                    <StackLayout.GestureRecognizers>
+                        <TapGestureRecognizer NumberOfTapsRequired="1" Tapped="TapGestureRecognizer_Tapped" />
+                    </StackLayout.GestureRecognizers>
+                </StackLayout>
+                <StackLayout Margin="4,0,4,4">
+                    <ScrollView Orientation="Horizontal">
+                        <StackLayout Orientation="Horizontal" Spacing="8" Margin="0,0,0,8">
+                            <Button x:Name="BtnMostrar0" Text="Ocultar análisis" Clicked="BtnMostrar0_Clicked"/>
+                            <Button x:Name="BtnMostrar5" Text="Resumen última" Clicked="BtnMostrar5_Clicked"/>
+                            <Button x:Name="BtnMostrar1" Text="Todo con tokens" Clicked="BtnMostrar1_Clicked"/>
+                            <Button x:Name="BtnMostrar2" Text="Todo sin tokens" Clicked="BtnMostrar2_Clicked"/>
+                            <Button x:Name="BtnMostrar3" Text="Solo tokens" Clicked="BtnMostrar3_Clicked"/>
+                            <Button x:Name="BtnMostrar4" Text="Solo entities" Clicked="BtnMostrar4_Clicked"/>
+                            <!--<Button x:Name="BtnMostrar5" Text="Resumen última" Clicked="BtnMostrar5_Clicked"/>-->
+                            <Button x:Name="BtnMostrar6" Text="Resumen todas" Clicked="BtnMostrar6_Clicked"/>
+                        </StackLayout>
+                    </ScrollView>
+                </StackLayout>
+            </StackLayout>
+        </StackLayout>
+    </ScrollView>
+</ContentPage>

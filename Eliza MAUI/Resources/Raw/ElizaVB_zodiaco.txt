@@ -1,0 +1,166 @@
+﻿;==============================================================================
+; ElizaVB_zodiaco.txt
+;
+; Contenido:	Temas relacionados con la astrología
+; Autor:	Guillermo 'guille' Som
+; Fecha:	1998 (extraido del fichero original)
+; Actualizado:	17/Sep/2002
+;
+;==============================================================================
+;
+[*rs*]
+;
+;---magia, astrología, etc.
+magia negra,esotérico
+magia blanca,esotérico
+vudú,esotérico
+medium,esotérico
+vidente,esotérico
+videntes,esotérico
+brujo,esotérico
+bruja,esotérico
+brujos,esotérico
+brujos,esotérico
+fantasma,esotérico
+fantasmas,esotérico
+aparición,esotérico
+apariciones,esotérico
+tarot,esotérico
+uija,esotérico
+guija,esotérico
+güija,esotérico
+biorritmo,esotérico
+biorritmos,esotérico
+parapsicología,esotérico
+parasicología,esotérico
+parapsicologia,esotérico
+parasicologia,esotérico
+reencarnación,esotérico
+reencarnar,esotérico
+reencarnarse,esotérico
+;
+astrología,horóscopo
+astrólogo,horóscopo
+astróloga,horóscopo
+astrólogos,horóscopo
+astrólogas,horóscopo
+horóscopos,horóscopo
+horoscopo,horóscopo
+horoscopos,horóscopo
+ascendentes,horóscopo
+ascendente,horóscopo
+zodíaco,horóscopo
+zodiaco,horóscopo
+;---Los signos individuales están en claves separadas, aunque se puede
+;    confundir con palabras normales
+[/rs]
+;
+;
+
+[mi signo es]
+5
+¿Cual es tu signo? (escribelo de la forma soy Aries, etc.){*base:=signo_zodiaco}
+
+[horóscopo]
+5
+;cuando se usa *usarbase:=xxx* se pone automáticamente un espacio delante y detrás
+*iif(*base*signo_zodiaco;*equal:=soy*usarbase:=signo_zodiaco*)(*equal:=mi signo es)
+Si quieres información de tu signo zodical, *iif(*base*signo_zodiaco; escribe 'soy *usarbase:=signo_zodiaco*')(escribe 'soy xxx', es decir, soy Aries, etc.)
+Los doce signos del zodíaco son: Aries, Tauro, Géminis, Cáncer, Leo, Virgo, Libra, Scorpio, Sagitario, Capricornio, Acuario y Pisicis...
+;¿Te gustaría saber tu signo zodiacal?{*iif(*true*;búscate una revista y compruebalo, je, je... es que por ahora no tengo esa información en mi 'base de conocimientos')(Pues nada, yo soy Géminis, ya que me empezaron a programar el 30 de mayo...)}
+*equal:=Eliza cambia de tema
+
+[soy aries]
+5
+Entonces naciste entre el 21 de marzo y el 20 de abril. ¿Quieres saber más cosas de Aries?{*iif(*true*;*equal:=soy aries)(pues háblame de otra cosa)}
+El signo de Aries, relacionado con el cuerpo humano, corresponde a la cabeza y sus órganos. ¿Te digo más cosas?{*iif(*true*;*equal:=soy aries)(*equal:=Eliza cambia de tema)}
+De tu signo se dice que es un signo cardinal, lo mismo que Cáncer, Libra y Capricornio. Sois emprendedores... ¿Quieres que siga hablándote de Aries?{*iif(*true*;*equal:=soy aries)(*equal:=Eliza cambia de tema)}
+Aries es un signo de fuego como Leo y Sagitario, signos de impulsión, extraversión y de acción realizadora... ¿Continúo informándote más de tu signo?{*iif(*true*;*equal:=soy aries)(*equal:=Eliza cambia de tema)}
+Carácter: valiente y temerario; virtud cardinal: tenacidad. ¿Lo dejamos?{*iif(*true*;*equal:=Eliza cambia de tema)(Sí, que sino tu 'EGO' va a engordar mucho y no es plan...)}
+Ya lo vamos a dejar... que voy a acabar agotada... ¿Cambiamos de tema?{*iif(*true*;*equal:=Eliza cambia de tema)(Vale, entonces, aquí me quedo...)}
+*equal:=Eliza cambia de tema
+
+[soy tauro]
+5
+Los Tauros son aquellos que han nacido entre el 21 de abril y el 20 de mayo. ¿Impresionad*oa*?{*iif(*true*;*equal:=soy tauro)(*equal:=Eliza cambia de tema)}
+Tauro, al igual que Leo, Scorpio y Acuario, es un signo 'fijo', el índice de la estabilidad y firmeza en las opiniones o actos, pero la obstinación puede hacerte fracasar. ¿Sigo?{*iif(*true*;*equal:=soy tauro)(*equal:=Eliza cambia de tema)}
+Las partes del cuerpo 'relacionadas' con tu signo, son: el cuello, la garganta, la voz y la lengua. ¿Te comento más cosas?{*iif(*true*;*equal:=soy tauro)(*equal:=Eliza cambia de tema)}
+Tauro es un signo de tierra, y los signos de tierra son signos de análisis, de posesión y de materialidad. ¿Quieres saber los otros signos de tierra?{*iif(*true*;Virgo y Capricornio)(*equal:=soy tauro)}
+Seguramente tu color preferido será el azul marino o verde mar, tu piedra preciosa la esmeralda... dejémoslo estar...
+*equal:=Eliza cambia de tema
+
+;
+;Cuando se usar [soy {* géminis; geminis}] en vez de usar las dos claves
+;por separado: [soy geminis] y [soy géminis] con *equal:=soy géminis
+;se generan tres claves en lugar de dos, ya que la que usa {* se guarda
+;como otra clave, que es la que tiene las respuestas.
+;Este comentario es "aplicable" al resto de las claves "compuestas"
+;osea, cuando haya muchas palabras claves puede ser contraproducente el que
+;se creen tantas claves extras.
+;
+
+[soy {* géminis; geminis}]
+5
+Según dice 'el guille', (otro geminiano), somos los mejores... ¿Me dejas hablar más de nuestro signo?{*iif(*true*;*equal:=soy géminis)(*equal:=Eliza cambia de tema)}
+Los que somos Géminis, hemos nacido entre el 21 de mayo y el 21 de junio. ¿Más sobre Géminis?{*iif(*true*;*equal:=soy géminis)(*equal:=Eliza cambia de tema)}
+Las partes del cuerpo relacionadas con nuestro signo son: los bronquios, los brazos y manos. ¿Sigo contándote cosas?{*iif(*true*;*equal:=soy géminis)(*equal:=Eliza cambia de tema)}
+Géminis es un 'signo mudable', al igual que Virgo, Sagitario y Piscis, es decir indecisos, fluctuantes y que sabemos adaptarnos. Anda, déjame seguir, ¿vale?{*iif(*true*;*equal:=soy géminis)(*equal:=Eliza cambia de tema)}
+Nuestro elemento: el aire. Mira lo que dicen de nosotros: signo de la dualidad, transición, indecisión... mejor lo dejamos estar...
+*equal:=Eliza cambia de tema
+
+;[soy cancer]
+;5
+;*equal:=soy cáncer
+
+[soy {* cáncer; cancer}]
+5
+Entonces tu fecha de nacimiento está comprendida entre el 22 de junio y el 22 de julio. ¿A que quieres saber más cosas de Cáncer?{*iif(*true*;*equal:=soy cáncer)(*equal:=Eliza cambia de tema)}
+Las partes del cuerpo relacionadas con Cáncer son: el estómago y el pecho. ¿Signo de Agua, continúo informándote?{*iif(*true*;*equal:=soy cáncer)(*equal:=Eliza cambia de tema)}
+Al igual que Aries, Libra y Capricornio, tu signo es un signo cardinal, es decir que indican siempre el comienzo del acto y de espíritu emprendedor. ¿Sigo hablándote de Cáncer?{*iif(*true*;*equal:=soy cáncer)(*equal:=Eliza cambia de tema)}
+Según el libro que he consultado, la relación entre Cáncer y el carácter es: receptividad o separación, tu virtud: la inspiración. ¿Sigo?{*iif(*true*;*equal:=soy cáncer)(*equal:=Eliza cambia de tema)}
+El signo de Cáncer está en analogía con la madre, la familia, el pueblo, el pasado, el agua que es la 'madre de toda la vida' ¿Cómo se te ha quedado el cuerpo? Bien, ¿verdad?{*iif(*true*;*equal:=Eliza cambia de tema)(*equal:=Eliza cambia de tema)}
+
+[soy leo]
+5
+¡¡¡GRRRRR!!! Pues tu fecha de nacimiento está comprendida entre el 23 de julio y el 22 de agosto
+
+[soy virgo]
+5
+Si es así, naciste entre el 23 de agosto y el 22 de septiembre.
+
+[soy libra]
+5
+Los que sois de ese signo es porque nacisteis entre el 23 de septiembre y el 22 de octubre
+
+[soy {* scorpio; escorpio; escorpión; escorpion}]
+5
+Pues si es así, naciste entre el 23 de octubre y el 21 de noviembre
+
+[soy sagitario]
+5
+Tu fecha de nacimiento debe está comprendida entre el 22 de noviembre y el 21 de diciembre, ¿cierto?{*iif(*true*;lo que yo no sepa...)(algunos calendarios dan otras fechas, pero esa es la que me han dicho...)}
+
+[soy capricornio]
+5
+A ver... espera que piense un poco... sí, tu fecha de nacimiento debe estar entre el 22 de diciembre y el 20 de enero.
+
+[soy acuario]
+5
+Buen signo ese; me gusta. Tu naciste entre el 21 de enero y el 18 de febrero.
+
+[soy piscis]
+5
+Espero que no hayas nacido el 29 de febrero, ya que tu fecha de nacimiento debe estar entre el 19 de febrero y el 20 de marzo.
+
+
+[esotérico]
+3@
+¿Te gusta tratar estos temas? Cuentame tus impresiones sobre los temas esotéricos.
+Hay gente que piensa que todo esto es cosa de brujería.
+He oido decir que sólo son patrañas... ¿Cómo crees que pueden influirme los astros?
+No es que sea escéptica, es que soy demasiado lógica para comentar estos temas.
+Por supuesto que respeto a quién cree en estas cosas, pero, salvando el viernes 13... ;-)
+Se me ponen los bits de punta al hablar de estos temas... es que la lógica no coincide con estos temas.
+El guille si que cree en esas cosas, pero... cada cual es libre de opinar de estos temas.
+
+;fin

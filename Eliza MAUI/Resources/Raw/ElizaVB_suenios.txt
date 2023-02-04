@@ -1,0 +1,224 @@
+﻿;==============================================================================
+; ElizaVB_sueños.txt
+;
+; Contenido:    Temas relacionados con la los sueños (ponía astrología)
+; Autora:   Svetlana
+; Fecha:    1998 (extraido del fichero original)
+; Actualizado:  17/Sep/2002
+;
+;==============================================================================
+;
+;====Nuevo: 25.06.98 Aquí comencé a desarrollar claves que permitan que Eliza
+;muestre su erudición sobre los sueños. La idea es crear claves intermedias
+; que apunten a las principales. Tendré que hacer cambios ya que definitivamente
+;el texto demasiado largo no se muestra como es dibido. Entonces tengo que
+;ver como los fragmento con el *iif para darle continuidad a la conversación
+;y para que Eliza se muestre más activa. La intención es que el user no se
+;escape tan fácilmente del tema y la conversa pueda proseguir con lógica.
+;Si logro hacerlo bien, el mismo modelo serviría para tratar otros temas.
+;Lo que me preocupa es que lleguemos al límite cuando no se pueda agregar
+;más claves. Como no entiendo mucho sobre el asunto, esta preocupación es
+;como una pesadilla para mí ... :-(
+;
+[mis sueños]
+6@
+*NOMBRE*: ¿Estás con ánimos de hablar sobre los sueños? {*iif(*true*;*equal:=símbolos oníricos)(en todo caso, si algún rato te apetece charlar sobre tus sueños, sólo tienes que escribir 'sueño con *tema del sueño*'. Tengo algunos conocimientos sobre el tema este...)}
+¿Quieres que conversemos sobre tus sueños? {*iif(*true*;*equal:=símbolos oníricos)(en todo caso, ya sabes que para charlar el asunto, sólo tienes que escribir 'sueño con *tema del sueño*'.)}
+¿Quieres que te cuente algo acerca de tus sueños? {*iif(*true*;*equal:=símbolos oníricos)(Qué pena, me encantaría enterarme de tus sueños.)}
+
+;¡¡¡BINGO!!!: esta clave tiene 4 '{*' ¡¡¡y funciona!!! así que podré "clonarla" para otros temas...
+[{*quiero;quisiera;me gustaría;propongo;sugiero}{*hablar;que hablemos;que conversemos;que charlemos;que me hables;que me converses;que me cuentes}{*de;sobre; acerca de}{*los}sueños]
+6@
+*equal:=mis sueños
+[símbolos oníricos]
+7@
+Realmente nunca me canso de hablar sobre los sueños sólo tienes que escribir 'sueño con *palabra clave del tema*', por ejemplo 'sueño con un estanque' y yo trataría de darte alguna información sobre éste símbolo.
+No quiero parecer pesada pero... ¿Sabías que los símbolos que aparecen en tus sueños revelan tu estado interior? ¿Sueñas con algo especial? Cuando quieras podríamos 'desmenuzar' el símbolo. Creo que ya sabes que sólo tienes que escribir 'sueño con ...'
+¿Tienes sueños recurrentes? Me refiero a los sueños que se repiten una y otra vez. {*iif(*true*;¿Sueñas con un símbolo específico? Si quieres saber más sobre símbolos oníricos, sólo dime 'sueño con *tu símbolo*'.)(Muchas personas los tienen.)}
+
+;[soñé]
+;3
+;[*extras*]
+[soñé {* con; en}]
+¿Que te sugirió ese sueño?
+¿Que te sugiere ese sueño?
+¿Crees que este sueño tiene algo que ver con tu problema?
+¿Sueñas a menudo?  {*iif(*true*;*equal:=mis sueños)(Muchas personas dicen que no sueñan nunca. En realidad, lo que pasa es que no se acuerdan de sus sueños.)}
+*NOMBRE* ¿qué objetos o personas aparecen en tus sueños?
+Realmente debe ser algo que deseas, ¿no?
+Cuéntame más cosas sobre ese sueño.
+*NOMBRE*, ¿crees que te ayudó en algo soñar con *RESTO*?
+;[/extras]
+
+;éste es el primer intento. Si funciona, voy a seguir agregándole más
+;símbolos.
+[soñé {* con; en} {* el agua; un estanque; un río; un lago; el mar}]
+4@
+*equal:=soñar con el agua
+[sueño {* con; en} {* el agua; un estanque; un río; un lago; el mar}]
+4@
+*equal:=soñar con el agua
+[soñar con el agua]
+4@
+El agua es uno de los arquetipos más importantes que te puedas imaginar. Otro día te converso más sobre el asunto...
+[soñé {* con; en} {* el fuego; una llama; un incendio; una hoguera; una fogata}]
+4@
+*equal:=soñar con el fuego
+[sueño {* con; en} {* el fuego; una llama; un incendio; una hoguera; una fogata}]
+4@
+*equal:=soñar con el fuego
+[soñar con el fuego]
+4@
+El fuego implica dualidad. Representa creación y destrucción. Todo depende del contexto.
+
+[soñé {* que volaba; que volé}] 
+4@
+*equal:=soñar con el vuelo
+[soñé {* con; en} {* el vuelo; volar}]
+4@
+*equal:=soñar con el vuelo
+[soñar con el vuelo]
+4@
+El vuelo significa muchas cosas... Después te cuento
+
+[soñé {* con; en} {* un árbol; árboles; unos árboles; muchos árboles; los árboles}]
+4@
+*equal:=soñar con árbol
+[sueño {* con; en} {* un árbol; árboles; unos árboles; muchos árboles; los árboles}]
+4@
+*equal:=soñar con árbol
+[soñar con árbol]
+4@
+¿Has oído hablar del Árbol de la Vida?
+
+[soñé {* con; en} {* el arcoiris}]
+4@
+*equal:=soñar con el arcoiris
+[sueño {* con; en} {* el arcoiris}]
+4@
+*equal:=soñar con el arcoiris
+[soñar con el arcoiris]
+4@
+Es puente entre la tierra y el cielo
+
+[soñé {* con; en} {* caballos; un caballo; unos caballos; los caballos; el caballo}]
+4@
+*equal:=soñar con caballos
+[sueño {* con; en} {* caballos; un caballo; unos caballos; los caballos; el caballo}]
+4@
+*equal:=soñar con caballos
+[soñar con caballos]
+4@
+Es el deseo, las tinieblas del mundo ctónico.
+
+[soñé {* con; en} {* el pez; un pez; unos peces; los peces; peces; unos pecesillos; pescado; pescados}]
+4@
+*equal:=soñar con peces
+[sueño {* con; en} {* el pez; un pez; unos peces; los peces; peces; unos pecesillos; pescado; pescados}]
+4@
+*equal:=soñar con peces
+[soñar con peces]
+4@
+Símbolo del Cristianismo...
+¿Tienes pecera en tu casa? es que eso también influye...
+
+[soñé {* con; en} {* una serpiente; serpiente; las serpientes; unas serpientes; serpientes; una víbora; una cobra; una culebra}]
+4@
+*equal:=soñar con serpientes
+[sueño {* con; en} {*una serpiente; serpiente; las serpientes; unas serpientes; serpientes; una víbora; una cobra; una culebra}]
+4@
+*equal:=soñar con serpientes
+[soñar con serpientes]
+4@
+¿Si sabes lo que les pasó a Adán y Eva?
+
+[soñé {* con; en} {* un pájaro; unos pájaros; los pájaros; pájaros; el pájaro}]
+4@
+*equal:=soñar con pájaros
+[sueño {* con; en} {* un pájaro; unos pájaros; los pájaros; pájaros; el pájaro}]
+4@
+*equal:=soñar con pájaros
+[soñar con pájaros]
+4@
+Como el pájaro libre...
+
+[soñé {* con; en} {* un perro; unos perros; los perros; perros; el perro}]
+4@
+*equal:=soñar con perros
+[sueño {* con; en} {* un perro; unos perros; los perros; perros; el perro}]
+4@
+*equal:=soñar con perros
+[soñar con perros]
+4@
+¿Oíste hablar del Cerbero?
+
+[soñé {* con; en} {* un dragón; unos dragones; los dragones; dragones; el dragón}]
+4@
+*equal:=soñar con dragones 
+[sueño {* con; en} {* un dragón; unos dragones; los dragones; dragones; el dragón}]
+4@
+*equal:=soñar con dragones
+[soñar con dragones]
+4@
+¡Qué interesante! ¡Todavía hay gente que sueña con dragones!
+¿Así que soñaste con dragones?
+No te creo: ¿sueñas con dragones?
+Me dejaste anonadada: es que no me imaginaba que sueñes con dragones.
+
+[soñar con dinero]
+4@
+¿Tienes alguna preocupación financiera? A veces no hace falta tanta interpretación. 
+Pues, el dínero también tiene su simbolismo.
+4@
+[soñar con la muerte]
+Un tema espantoso ¿verdad?
+4@
+[soñar con el bosque]
+Tiene que ver con los árboles... y también con el agua...
+
+[soñé {* con; en} {* un jardín; unos jardines; los jardines; jardines; el jardín}]
+4@
+*equal:=soñar con jardines
+[sueño {* con; en} {* un jardín; unos jardines; los jardines; jardines; el jardín}]
+4@
+*equal:=soñar con jardines.
+[soñar con jardines]
+4@
+El jardín del Edén...
+
+[soñé {* con; en} {* una montaña; montañas; la montaña; unas montañas; las montañas}]
+4@
+*equal:=soñar con montañas
+[sueño {* con; en} {* una montaña; montañas; la montaña; unas montañas; las montañas }]
+4@
+*equal:=soñar con montañas
+[soñar con montañas]
+4@
+Alturas...
+
+;
+;[sueño];Yo evitaría que usemos esta palabra a secas ya que se presta a las confusiones
+;entre 'dormir' y 'soñar'. De hecho Eliza se confunde mucho en esta parte. Sería de
+;permitir que sólo se usen claves más específicas.
+;[*extras*]
+;Le puse unas correcciones para que no se confunda entre sueños nocturnos y fantasías diurnas
+;(deseos)
+
+[sueño con]
+1
+¿Realmente sueñas con *RESTO*? {*iif(*true*;¿Qué pasaría si esto fuera real?)(¿Qué relevancia tiene *RESTO* para ti?}
+Cuéntame más cosas de porqué sueñas con *RESTO*
+*NOMBRE*, ¿cómo te sientes cuando sueñas con *RESTO*?
+;cuando se encuentre *oa* usará el apropiado al sexo del usuario
+¿Has fantaseado *RESTO* mientras estás despiert*oa*?
+¿Has soñado con *RESTO* antes?
+*NOMBRE*, ¿realmente, soñaste *RESTO*?
+
+;*NOMBRE*, ¿te sientes bien cuando sueñas con *RESTO*?
+;¿Que te sugiere ese sueño?
+;¿Crees que soñar tiene algo que ver con tu problema?
+;¿Sueñas a menudo?
+;*NOMBRE* ¿que personas aparecen en tus sueños?
+
+;
+;fin

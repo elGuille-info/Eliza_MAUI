@@ -1,0 +1,380 @@
+;==============================================================================
+; Reglas para el programa Eliza para Visual Basic
+;==============================================================================
+;
+; Los ficheros con las reglas (palabras/respuestas) que usará ElizaVB
+: estarán en el mismo directorio del ejecutable, (esto puede cambiar en el futuro),
+; y tendrán el formato: ElizaVB_xxx.txt, pudiendo existir tantos como se deseen,
+; el límite lo pondrá el sistema.
+; Además existirá uno llamado Eliza_SPA.txt el cual se leerá antes que los demás,
+; de forma que se puedan sustituir algunas de las palabras y reglas en el definidas.
+;
+;==============================================================================
+;
+; A continuación se menciona la forma de definir las reglas de simplificación y
+; la forma de crear las palabras que Eliza reconocerá y las respuestas que dará
+; cuando analice esas palabras.
+;
+;==============================================================================
+;
+;===== Reglas de simplificación (rs) =====
+;
+;Estas palabras deben estar entre [*rs*] y [/rs]
+;Se usarán para asociar palabras con claves definidas.
+;La idea es poder agrupar palabras diferentes con un mismo significado que
+;será el que se incluya en las claves.
+;
+;Cuando se encuentre [*simp*] (que debe estar antes del bloque de cierre [/rs]
+;se añadirán a la lista de palabras a usar para sustituir las palabras en la
+;cadena inicial introducida por el usuario.
+;Lo que se espera encontrar aquí es el equivalente a lo que Eliza tendría que
+;decir, por ejemplo, si el usuario escribe 'tengo', Eliza debe usar 'tienes'
+;Por tanto estas palabras sólo se usarán, junto con los verbos, cuando haya
+;que usar el texto introducido por el usuario como parte de la respuesta de
+;Eliza, es decir cuando en la respuesta de Eliza esté *RESTO*
+;
+;---Este texto que viene a continuación es lo que puse originalmente y sigue
+;   siendo válido para las palabras que estén entre [*simp*] y [/rs]
+;
+;Estas palabras se usarán para sustituirlas en la frase entrada por el usuario
+;y se usarán en la respuesta o bien servirán para buscar en las claves.
+;También servirán para sustituir palabras escritas por el usuario para buscar
+;entre las claves, por ejemplo, en el caso de los idiomas.
+;
+;Se debe tener en cuenta que en las palabras claves
+;se buscará lo que esté en la segunda parte (después de la coma)
+;y las palabras que se incluirán en la respuesta también serán las que estén
+;después de la coma.
+;
+;Se usará: "@palabra,otra" para los casos que existan las dos combinaciones
+;palabra,otra y otra,palabra
+;
+;En las palabras incluidas en [*rs*] sólo se deberían convertir 'frases'
+;de dos palabras como máximo, ya que al 'simplificar' se miran las palabras
+;de dos en dos. Por tanto: 'todo el mundo,todos' no tendría validez.
+;
+;
+;---Se podrían tener una serie de palabras para "comprender" los errores
+;   de palabras mal tecleadas
+;qeu,que
+;qéu,qué
+;pro,por
+;qiuén,quién
+;---
+;
+[*rs*]
+;
+;---Estas palabras se deben sustituir en la frase original.
+;   Será las que se usarán en la función SustituirEnEntrada
+;
+;   Deben estar antes del bloque [*simp*]
+;
+quizas,quizás
+puede ser,quizás
+;
+;
+[*simp*]
+;
+;---Esta lista se considerará como 'irregularidades' y sólo se usará en caso
+;   de tener que incluir el *RESTO* en la respuesta
+;   Será la lista que se usará en la función SimplificarEntrada
+;   Además de los verbos...
+;
+;   Deben estar entre [*simp*] y [/rs]
+;
+@anduve,anduviste
+@quepo,cabes
+@caigo,caes
+;
+fuí,fuiste
+@fui,fuiste
+;
+@en tí,en mí
+;estas formas pueden dar lugar a confusión, por eso sólo cambiará 'ti' por 'mi'
+ti,mi
+@mi,tu
+@tus,mis
+@me,te
+@tú te,yo me
+@yo te,tú me
+;
+nadie,ninguno
+[/rs]
+;
+;===== Verbos =====
+;
+;Los verbos estarán comprendidos entre [*verbos*] y [/verbos]
+;la terminación deber ser '-ar', '-er' o '-ir', éste se usará igual que '-er'
+;
+;Para los casos en los que los verbos cambian la forma
+;(y no simplemente quitándo la terminación), se deberían especificar los
+;distintos casos, aunque el infinitivo no sea correcto.
+;Se deberían especificar las dos formas, la normal y la 'trucada'
+;Por ejemplo: dormir, duermir
+;   duermo, duermes, dormía...
+;
+;Cuando se deba acentuar la vocal que va antes de la terminación, usar %
+;o escribir las dos formas, el % sólo será para que Eliza lo haga por nosotros
+;Por ejemplo: %desviar
+;   desvío, desvías...
+;
+[*verbos*]
+;
+;Terminados en: ar
+;
+abandonar
+abanicar
+abaratar
+;
+;usar % para los casos en los que deba ir acentuado (confío)
+%confiar
+consultar
+contagiar
+;si se pusiera contar, no serviría, ya que no es conto, ni contas...
+;pero se puede especificar la forma correcta para los casos de -me/-te
+contar
+cuentar
+;
+;
+;Terminados en: er
+;
+absorber
+abstraer
+;
+creer
+;para creyéndome...
+creyer
+;
+;
+;Terminados en: ir
+;
+abrir
+aburrir
+;
+dormir
+duermir
+herir
+hirir
+hierir
+huir
+huyir
+;
+[/verbos]
+;
+;===== Claves y sus correspondientes respuestas =====
+;
+;Las claves estarán entre cochetes y después el Nivel
+;Las claves con un nivel más alto se usarán antes que las de menor nivel.
+;
+;Cada clave principal puede tener subclaves, estas se deberán especificar
+;entre [*extras*] y [/extras]
+;Por ejemplo:
+;[SQL]
+;2
+;[*extras*]
+;[SQL Server]
+;cosas relacionadas con [SQL Server]
+;*equal:=bases de datos
+;[/extras]
+;El SQL es un lenguaje para consultas de bases de datos bastante potente. ¿Que programa de bases de datos usas?
+;más cosas relacionadas con [SQL]
+;
+;
+;Las palabras en las claves serán las que el usuario ha escrito o el resultado
+;de usar las reglas de simplificación incluidas entre: [*rs*] y [*simp*]
+;
+;---Antes las claves no era lo que el usuario escribía, sino el resultado
+;   de haberlas convertido, pero ahora no es así.
+;
+;Si en la respuesta se usa: *equal:=xxx
+;quiere decir que se usará lo que haya en 'LA CLAVE PRINCIPAL' "xxx"
+;esto se puede usar en el caso de que se deban dar las mismas respuestas
+;en claves diferentes, o bien para que una vez agotadas las respuestas
+;de una clave determinada se quiera continuar con las respuestas de otra clave
+;
+;   "xxx" debe ser una clave principal, no una subclave, aunque se puede poner
+;   en cualquier sitio, incluso en las respuestas de las subclaves
+;
+;El *equal:=xxx se puede usar para llamar a una subclave, aunque debe ser una palabra
+;normal, es decir que no contenga {* ...}
+;
+;Se puede usar [clave {* ...}] para los casos en los que la palabra clave
+;vaya seguida de cualquiera de las palabras indicadas entre {* y }
+;   Las palabras a tener en cuenta deberán ir separadas por ;
+;   de esta forma se permiten palabras clave formadas por varias palabras
+;Las respuestas que se usarán para estas palabras serán las que vengan a 
+;continuación, ya que internamente se hará es un *equal:= a la primera clave.
+;
+;Es decir si el analizador se encuentra con: [tu {* hermano; hermana}]
+;las respuestas que haya a continuación serán las que se pongan en:
+;[tu hermano] y [tu hermana] tendrá como respuesta: *equal:=tu hermano
+;
+;Para ver ejemplos, busca {*
+;
+;=== NUEVO 09/Jun/98 ===
+;Para que las respuestas se tomen aleatoriamente, especificar después del nivel
+;el signo @ (por supuesto esto sólo se aplican a las claves principales)
+;-----------------------------------------------------------------------------
+;
+;Versión 00.09.xx
+;----------------
+;Modifico la forma de usar {* añadiendo ; para separar las distinas palabras.
+;
+;Versión 00.10.xx
+;----------------
+;Si el usuario escribe "mi xxx" o "Mis xxx", Eliza almacenará lo escrito en
+;una colección, usando xxx como palabra clave o índice de la colección.
+;
+;Versión 00.11.xx
+;----------------
+;Se puede usar {*iif( para usar la respuesta del usuario, según la respuesta
+;se usará una parte u otra de lo indicado después de *iif(...;
+;
+;El iif funciona igual que en VB, (o casi)
+;{*iif(*CONDICIÓN*; ES-TRUE)(ES-FALSE)}
+;   si se cumple la condición se usa lo que haya a continuación del punto y coma hasta el siguiente ), 
+;   en otro caso se usará lo que esté después de ')('
+;   Prefiero usar los paréntesis para poder incluir en la respuesta el punto y coma.
+;
+;Por ahora la *CONDICIÓN* sólo será:
+;   *afirmativo* o *true*   Para los casos en que responda afirmativamente
+;   *negativo* o *false*    Para los casos en que responda negativamente
+;
+;Hay que tener en cuenta de que si se usa: {*iif(*false*; UsarA)(UsarB)}
+;Se usará UsarA en caso de que responda "negativamente" y
+;se usará UsarB en caso de que responda "afirmativamente"
+;
+;----------
+;He ampliado el uso de {* ; para especificar distintas claves, de forma que si
+;acaba con ;} se use lo que haya antes y/o después pero sin nada en medio.
+;Por ejemplo: [estoy {* muy;} contento]
+;crearía dos claves: [estoy muy contento] y [estoy contento]
+;
+;Versión 00.12.xx
+;----------------
+;Se usará {*base:=clave_BaseDatos} para almacenar la respuesta dada
+;en el campo 'clave_BaseDatos' de la base de datos del usuario.
+;Por tanto esto siempre se debería usar con una pregunta.
+;
+;Versión 0.17.xx
+;---------------
+;Se puede usar {*base:=clave:=*restoant*} para asignar a esa clave
+;la respuesta que dio la vez anterior.
+;
+;Versión 0.17.1300
+;-----------------
+;Se puede usar *mi_edad* para que Eliza calcule los años que tiene actualmente
+;Basándose en que nació en el año 1998
+;
+
+[{* qué; que} signo eres]
+5
+*equal:=cual es tu signo
+
+[cual es tu signo]
+5
+;Se usará: *iif(*base*clave_BaseDatos; para comprobar si tenemos este dato
+;Se usará: *usarbase:=clave_BaseDatos* para incluir el dato que tenemos
+Yo soy Géminis, *iif(*base*signo_zodiaco;y, según me contaste, tu signo es: *usarbase:=signo_zodiaco*)(*equal:=mi signo es)
+;Yo soy Géminis, ¿cual es tu signo? (escribelo de la forma soy aries, etc.){*base:=signo_zodiaco}
+Soy Géminis porque 'nací' el 30 de mayo, al menos en esta versión que estás usando ahora.
+*equal:=horóscopo
+
+[mi signo es]
+5
+¿Cual es tu signo? (escribelo de la forma soy Aries, etc.){*base:=signo_zodiaco}
+
+[horóscopo]
+5
+;cuando se usa *usarbase:=xxx* se pone automáticamente un espacio delante y detrás
+*iif(*base*signo_zodiaco;*equal:=soy*usarbase:=signo_zodiaco*)(*equal:=mi signo es)
+Si quieres información de tu signo zodical, *iif(*base*signo_zodiaco; escribe 'soy *usarbase:=signo_zodiaco*')(escribe 'soy xxx', es decir, soy Aries, etc.)
+Los doce signos del zodíaco son: Aries, Tauro, Géminis, Cáncer, Leo, Virgo, Libra, Scorpio, Sagitario, Capricornio, Acuario y Pisicis...
+;¿Te gustaría saber tu signo zodiacal?{*iif(*true*;búscate una revista y compruebalo, je, je... es que por ahora no tengo esa información en mi 'base de conocimientos')(Pues nada, yo soy Géminis, ya que me empezaron a programar el 30 de mayo...)}
+*equal:=Eliza cambia de tema
+;
+;
+;Cuando se usa [soy {* géminis; geminis}] en vez de usar las dos claves
+;por separado: [soy geminis] y [soy géminis] con *equal:=soy géminis
+;se generan tres claves en lugar de dos, ya que la que usa {* se guarda
+;como otra clave, que es la que tiene las respuestas.
+;Este comentario es "aplicable" al resto de las claves "compuestas"
+;osea, cuando haya muchas palabras claves puede ser contraproducente el que
+;se creen tantas claves extras.
+;
+
+[soy {* géminis; geminis}]
+5
+Según dice 'el guille', (otro geminiano), somos los mejores... ¿Me dejas hablar más de nuestro signo?{*iif(*true*;*equal:=soy géminis)(*equal:=Eliza cambia de tema)}
+Los que somos Géminis, hemos nacido entre el 21 de mayo y el 21 de junio. ¿Más sobre Géminis?{*iif(*true*;*equal:=soy géminis)(*equal:=Eliza cambia de tema)}
+Las partes del cuerpo relacionadas con nuestro signo son: los bronquios, los brazos y manos. ¿Sigo contándote cosas?{*iif(*true*;*equal:=soy géminis)(*equal:=Eliza cambia de tema)}
+Géminis es un 'signo mudable', al igual que Virgo, Sagitario y Piscis, es decir indecisos, fluctuantes y que sabemos adaptarnos. Anda, déjame seguir, ¿vale?{*iif(*true*;*equal:=soy géminis)(*equal:=Eliza cambia de tema)}
+Nuestro elemento: el aire. Mira lo que dicen de nosotros: signo de la dualidad, transición, indecisión... mejor lo dejamos estar...
+*equal:=Eliza cambia de tema
+;
+;
+;Es importante que la primera palabra sea 'adios', ya que se usa para indicar
+;a Eliza que se termina la sesión.
+[quit]
+9@
+;Adios *NOMBRE*. Mi secretaria te enviará la factura.
+Adios *nombre*, espero volver a verte de nuevo en mi consulta.
+Adios, que tengas un buen día.
+Adios, ha sido un placer conversar contigo.
+Adios, o como diría el guille: nos vemos.
+
+;Nota: usar 'idioma' ya que los idiomas que están en *rs* se cambiarán por la palabra 'idioma'
+[idioma]
+5
+[*extras*]
+[hablar en idioma]
+¿Para que quieres hacerlo?
+*equal:=idioma
+[hablemos en idioma]
+No creo que sea necesario, aunque lo importante es hablar.
+*equal:=idioma
+[hablas {* en;} idioma]
+¿Por qué quieres que hable así?
+Sólo hablo el castellano y aún no lo comprendo del todo bien...
+*equal:=idioma
+[hablo idioma]
+Me parece fantástico, pero creo que es mejor tratar otra clase de temas.
+Pues estupendo, pero yo hablo castellano, y algunas veces no muy bien.
+*equal:=idioma
+[/extras]
+¿Que importancia tiene el idioma?
+¿Por qué te interesa el tema de los idiomas?
+¿Te gustaría hablar en otro idioma?
+Lo siento *NOMBRE*, sólo hablo castellano.
+*equal:=repetitivo-pesado
+
+;estas respuestas se usarán en el caso de que 'no entienda' lo que se le dice.
+[none]
+0
+*equal:=respuestas-aleatorias
+
+[respuestas-aleatorias]
+0@
+Por favor, continua.
+;
+
+;No sé si escogí bien las expresiones, pero aquí la idea es que en el caso de que el user
+;quiere que Eliza realice un cálculo ella le pueda responder, ya que no lleva una calculadora
+;incorporada. En la idea de la prueba de Turing estaba que el programa para confundir al 
+;examinador demoraba y hacía errores de cálculo.
+;
+;
+;==============================================================================
+; Lo que sí he notado es que no distingue entre preguntas y afirmaciones.
+;Si le digo ¿eres inteligente?, confunde esto con la clave y cree que le estoy
+;'piropiando' y me da las gracias. Otra cosa que sería de ver es que cuando
+;oye 'eres' seguido por palabras que no conoce, siempre responde 'soy Eliza'
+;o 'ya sabes que me llamo Eliza'... y a veces no da al blanco. Y en la parte
+;de los horóscopos no deja decir el 'sí' más de una ves - sale con 'no te repitas'.
+;==============================================================================
+;
+
+;fin
+
+;========== Todo lo que haya después de ;fin, no se evalúa ====================
+

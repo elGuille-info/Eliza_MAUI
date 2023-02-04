@@ -1,0 +1,3518 @@
+﻿;==============================================================================
+; Reglas para el programa Eliza en Español
+; Guardar el fichero en formato UTF8
+;==============================================================================
+; Última actualización:  24/Ene/23
+; Versión del programa:  00.17.0.1300 (18/sep/2002)
+; Notas:
+; Al escribir 'de acuerdo' su respuesta ha sido 'des acuerdas?'
+; Añado: [{* estoy de; de} acuerdo]
+; Añado: músicos, y sobre rollings, beatles, mick jagger.
+;
+; por hacer:
+; añadir temas sobre maestros, gurús, advaita, etc.
+;   actualmente en _zodiaco hay cosas relacionadas con reencarnación, etc.
+; Cambiar las urls y correos del guille
+;
+; copia - Última actualización:  23/Jun/98
+; copia - Versión del programa:  00.13.xx
+;
+; Parte de estas reglas (listas de palabras y respuestas), están sacadas de:
+; ELIZA in Prolog de Viren Patel
+;
+;==============================================================================
+; Habría que dejar definidas parte de la personalidad de Eliza:     (17/Sep/02)
+;
+; Fuma: No
+; Le gusta el café negro y sin azúcar
+; Estado civil: Soltera y sin compromisos
+; Signo: géminis
+; Fecha de nacimiento: Sábado, 30/May/98 17:30 (al menos de 'gestación')
+; Número: el 5
+; Color: el rojo
+; Mascota: no tiene
+; Color del pelo: castaño
+; Color de ojos: castaños
+; Actor favorito: Robert DeNiro
+; Actriz favorita: Julia Roberts
+; Película favorita: Juegos de guerra, Matrix y la clásica TRON
+;
+;==============================================================================
+;
+;
+;===== Reglas de simplificación (rs) =====
+;
+;Estas palabras deben estar entre [*rs*] y [/rs]
+;Se usarán para asociar palabras con claves definidas.
+;La idea es poder agrupar palabras diferentes con un mismo significado que
+;será el que se incluya en las claves.
+;
+;Cuando se encuentre [*simp*] (que debe estar antes del bloque de cierre [/rs]
+;se añadirán a la lista de palabras a usar para sustituir las palabras en la
+;cadena inicial introducida por el usuario.
+;Lo que se espera encontrar aquí es el equivalente a lo que Eliza tendría que
+;decir, por ejemplo, si el usuario escribe 'tengo', Eliza debe usar 'tienes'
+;Por tanto estas palabras sólo se usarán, junto con los verbos, cuando haya
+;que usar el texto introducido por el usuario como parte de la respuesta de
+;Eliza, es decir cuando en la respuesta de Eliza esté *RESTO*
+;
+;---Este texto que viene a continuación es lo que puse originalmente y sigue
+;   siendo válido para las palabras que estén entre [*simp*] y [/rs]
+;
+;Estas palabras se usarán para sustituirlas en la frase entrada por el usuario
+;y se usarán en la respuesta o bien servirán para buscar en las claves.
+;También servirán para sustituir palabras escritas por el usuario para buscar
+;entre las claves, por ejemplo, en el caso de los idiomas.
+;
+;Se debe tener en cuenta que en las palabras claves
+;se buscará lo que esté en la segunda parte (después de la coma)
+;y las palabras que se incluirán en la respuesta también serán las que estén
+;después de la coma.
+;
+;Se usará: "@palabra,otra" para los casos que existan las dos combinaciones
+;palabra,otra y otra,palabra
+;
+;En las palabras incluidas en [*rs*] sólo se deberían convertir 'frases'
+;de dos palabras como máximo, ya que al 'simplificar' se miran las palabras
+;de dos en dos. Por tanto: 'todo el mundo,todos' no tendría validez.
+;
+;
+;---Se podrían tener una serie de palabras para "comprender" los errores
+;   de palabras mal tecleadas
+;qeu,que
+;qéu,qué
+;pro,por
+;qiuén,quién
+;---
+;
+[*rs*]
+;
+;---Estas palabras se deben sustituir en la frase original.
+;   Será las que se usarán en la función SustituirEnEntrada
+;
+;   Deben estar antes del bloque [*simp*]
+;
+qeu,que
+qéu,qué
+;pro,por
+qiuén,quién
+ahber,haber
+gille,guille
+guile,guille
+felis,feliz
+;
+andé,anduve
+cabí,cupe
+;cabo,quepo
+cool,guay
+quizas,quizás
+puede ser,quizás
+mamá,madre
+papá,padre
+;
+eso es,así
+esta manera,así
+esa manera,así
+esta forma,así
+esa forma,así
+;
+idiomas,idioma
+alemán,idioma
+aleman,idioma
+frances,idioma
+francés,idioma
+inglés,idioma
+ingles,idioma
+dialecto,idioma
+dialectos,idioma
+castellano,idioma
+español,idioma
+catalá,idioma
+catalán,idioma
+gallego,idioma
+galego,idioma
+vasco,idioma
+euskera,idioma
+maquina,ordenador
+máquina,ordenador
+máquinas,ordenador
+computadora,ordenador
+computadoras,ordenador
+ordenadores,ordenador
+;tu programador,el guille
+;tu creador,el guille
+suenio,sueño
+sueno,sueño
+soñe,soñé
+sone,soñé
+sonie,soñé
+por que,por qué
+;---despedidas
+adios,quit
+; adiós debe llevar tilde, 24-ene-23 14.36
+adiós,quit
+hasta luego,quit
+chao,quit
+ciao,quit
+abur,quit
+agur,quit
+good bye,quit
+bye,quit
+pierdete,quit
+piérdete,quit
+esfumate,quit
+esfúmate,quit
+nos vemos,quit
+;
+pienso con,pienso en
+dia,día
+dias,días
+;---días de las semana
+lunes,días de la semana
+martes,días de la semana
+miercoles,días de la semana
+miércoles,días de la semana
+jueves,días de la semana
+viernes,días de la semana
+sabado,días de la semana
+sábado,días de la semana
+sabados,días de la semana
+sábados,días de la semana
+domingo,días de la semana
+domingos,días de la semana
+;---meses del año
+enero,meses del año
+febrero,meses del año
+marzo,meses del año
+abril,meses del año
+mayo,meses del año
+junio,meses del año
+julio,meses del año
+agosto,meses del año
+septiembre,meses del año
+setiembre,meses del año
+octubre,meses del año
+noviembre,meses del año
+diciembre,meses del año
+;---
+musica,música
+músico,música
+musico,música
+musicos,música
+;---política
+Clinton,política
+Aznar,política
+Felipe González,política
+Jordi Puyol,política
+Diputado,política
+Diputados,política
+Senador,política
+Senadores,política
+Congreso,política
+Parlamento,política
+campaña electoral,política
+elecciones,política
+;---los tacos, palabrotas, groserías, etc.
+;coño,decir tacos
+cojones,decir tacos
+capuyo,decir tacos
+capuya,decir tacos
+malparida,decir tacos
+malparido,decir tacos
+hijoputa,decir tacos
+hijo puta,decir tacos
+hijo de puta,decir tacos
+hijaputa,decir tacos
+hija puta,decir tacos
+hija de puta,decir tacos
+mariquita,decir tacos
+maricón,decir tacos
+cabrón,decir tacos
+cornudo,decir tacos
+lesbiana,decir tacos
+tortillera,decir tacos
+jodete,decir tacos
+jódete,decir tacos
+;---las drogas
+porro,drogas
+porrito,drogas
+canuto,drogas
+canutillo,drogas
+marihuana,drogas
+mariguana,drogas
+marijuana,drogas
+cannabis,drogas
+cocaína,drogas
+cocaina,drogas
+la coca,drogas
+heroína,drogas
+hachís,drogas
+hachis,drogas
+opio,drogas
+;---lenguajes de programación
+c++,lenguaje programación
+c#,lenguaje programación
+csharp,lenguaje programación
+c sharp,lenguaje programación
+j++,lenguaje programación
+j#,lenguaje programación
+pascal,lenguaje programación
+delphi,lenguaje programación
+prolog,lenguaje programación
+lisp,lenguaje programación
+vb,lenguaje programación
+vb.net,lenguaje programación
+vb .net,lenguaje programación
+vs .net,lenguaje programación
+vs.net,lenguaje programación
+basic,lenguaje programación
+cobol,lenguaje programación
+lenguajes programación,lenguaje programación
+módula,lenguaje programación
+modula,lenguaje programación
+ada,lenguaje programación
+javascript,lenguaje programación
+java,lenguaje programación
+jscript,lenguaje programación
+vbscript,lenguaje programación
+html,lenguaje programación
+fox,lenguaje programación
+foxpro,lenguaje programación
+dbase,lenguaje programación
+com,lenguaje programación
+dcom,lenguaje programación
+oop,lenguaje programación
+poo,lenguaje programación
+qbasic,lenguaje programación
+quickbasic,lenguaje programación
+comal,lenguaje programación
+clipper,lenguaje programación
+cliper,lenguaje programación
+;---sistemas operativos, marcas informáticas
+ms-dos,windows
+ms dos,windows
+win95,windows
+win98,windows
+xp,windows
+winxp,windows
+mac,windows
+macintosh,windows
+apple,windows
+atari,windows
+pc,windows
+osr2,windows
+os/2,windows
+ibm,windows
+microsoft,windows
+borland,windows
+unix,windows
+linux,windows
+xenix,windows
+NT,windows
+freedows,windows
+;
+[*simp*]
+;
+;---Esta lista se considerará como 'irregularidades' y sólo se usará en caso
+;   de tener que incluir el *RESTO* en la respuesta
+;   Será la lista que se usará en la función SimplificarEntrada
+;   Además de los verbos...
+;
+;   Deben estar entre [*simp*] y [/rs]
+;
+@anduve,anduviste
+@bendigo,bendices
+@caigo,caes
+@concluyo,concluyes
+@conozco,conoces
+@consigo,consigues
+@dancé,danzaste
+; A ver si así se evita el fallo del verbo dar
+; Se comprueba que si el resultado de convertir el verbo
+; es 'des', entonces no se cambia
+;de,de
+@doy,das
+@digo,dices
+@dije,dijiste
+@duermo,duermes
+@envejeces,envejezco
+@estoy,estás
+@estuve,estuviste
+@equivoco,equivocas
+@equivoqué,equivocaste
+@expongo,expones
+@expuse,expusiste
+@hago,haces
+@hice,hiciste
+@he,has
+@había,habías
+@hube,hubíste
+@habré,habrás
+@habría,habrías
+@iba,ibas
+@voy,vas
+@volqué,volcaste
+fuí,fuiste
+@fui,fuiste
+eras,fui
+@puedo,puedes
+@pude,pudiste
+@pongo,pones
+@puse,pusiste
+@produzco,produces
+@produje,produjiste
+@quepo,cabes
+@río,ries
+@reí,reiste
+@sé,sabes
+@supe,supiste
+@soy,eres
+@seré,serás
+@sería,serías
+@tengo,tienes
+@traigo,traes
+@traje,trajiste
+@valgo,vales
+@valdré,valdrás
+@vendré,vendrás
+@vengo,vienes
+@venzo,vences
+@vine,viniste
+@voy,vas
+@veo,ves
+@vi,viste
+;
+;pronombres y otras formas personales
+@yo,tú
+@nuestro,vuestro
+@contigo,conmigo
+@en ti,en mi
+@en tí,en mí
+;estas formas pueden dar lugar a confusión, por eso sólo cambiará 'ti' por 'mi'
+ti,mi
+@mi,tu
+@tus,mis
+@me,te
+@tú te,yo me
+@yo te,tú me
+;
+;nadie,ninguno
+;
+[/rs]
+;
+;
+;===== Verbos =====
+;
+;Los verbos estarán comprendidos entre [*verbos*] y [/verbos]
+;la terminación deber ser '-ar', '-er' o '-ir', éste se usará igual que '-er'
+;
+;Para los casos en los que los verbos cambian la forma
+;(y no simplemente quitándo la terminación), se deberían especificar los
+;distintos casos, aunque el infinitivo no sea correcto.
+;Se deberían especificar las dos formas, la normal y la 'trucada'
+;Por ejemplo: dormir, duermir
+;   duermo, duermes, dormía...
+;
+;Cuando se deba acentuar la vocal que va antes de la terminación, usar %
+;o escribir las dos formas, el % sólo será para que Eliza lo haga por nosotros
+;Por ejemplo: %desviar
+;   desvío, desvías...
+;
+[*verbos*]
+;
+;Terminados en: ar
+;
+abandonar
+abanicar
+abaratar
+abarcar
+abastecer
+abatir
+ablandar
+abochornar
+abofetear
+abogar
+abordar
+abortar
+abrasar
+abreviar
+abrigar
+abrochar
+abrumar
+abuchear
+abundar
+abusar
+acabar
+acariciar
+acaparar
+acariciar
+acarrear
+acatar
+actuar
+accionar
+acechar
+acelerar
+acentuar
+aceptar
+acercar
+acertar
+aciertar
+acicalar
+aclamar
+aclarar
+acomodar
+acompañar
+acomplejar
+acondicionar
+acongojar
+aconsejar
+acoplar
+acordar
+acuerdar
+acorralar
+acortar
+acosar
+acostar
+acuestar
+acostumbrar
+acrecentar
+acreditar
+activar
+actuar
+acuciar
+acumular
+acuñar
+acusar
+adaptar
+adecuar
+adelantar
+adelgazar
+aderezar
+adentrar
+adeudar
+adicionar
+adiestrar
+adjudicar
+adjuntar
+administrar
+admirar
+adoptar
+adornar
+adorar
+adornar
+adular
+afectar
+afeitar
+aferrar
+afianzar
+afinar
+aflojar
+afrontar
+agachar
+agarrar
+agasajar
+agenciar
+agilizar
+agitar
+aglomerar
+agobiar
+agonizar
+agotar
+agradar
+agrandar
+agravar
+agraviar
+agregar
+agrupar
+aguardar
+aguantar
+aguardar
+agujerear
+ahogar
+ahondar
+ahorcar
+ahorrar
+ahumar
+ahuyentar
+airar
+airear
+aislar
+ajar
+ajustar
+alabar
+alargar
+alarmar
+albergar
+alborotar
+alcanzar
+aleccionar
+alegrar
+alejar
+alentar
+alientar
+alertar
+aliar
+aligerar
+alimentar
+alinear
+aliñar
+alisar
+alistar
+aliviar
+allanar
+almacenar
+alojar
+alquilar
+alterar
+alternar
+alucinar
+alumbrar
+alzar
+amaestrar
+amagar
+amamantar
+amansar
+amar
+amargar
+amarrar
+amasar
+ambicionar
+amedrentar
+amenazar
+amenizar
+aminorar
+amoldar
+amonestar
+amontonar
+amordazar
+amortiguar
+amparar
+ampliar
+amueblar
+analizar
+andar
+angustiar
+anhelar
+animar
+anotar
+anunciar
+apaciguar
+apelar
+apenar
+apilar
+aplacar
+aplastar
+apostar
+apuestar
+apropiar
+asaltar
+asediar
+asestar
+asustar
+atrofiar
+auspiciar
+aventajar
+avivar
+ayudar
+bailar
+bajar
+beneficiar
+besar
+bostezar
+boxear
+buscar
+cabrear
+calumniar
+cambiar
+cantar
+captar
+capturar
+cazar
+codiciar
+colapsar
+comunicar
+;usar % para los casos en los que deba ir acentuado (confío)
+%confiar
+congelar
+congeniar
+consultar
+contagiar
+;si se pusiera contar, no serviría, ya que no es conto, ni contas...
+cuentar
+;pero se puede especificar la forma correcta para los casos de -me/-te
+contar
+continuar
+contrariar
+copiar
+criar
+danzar
+;'dar' es problemático, ya que confunde la preposición 'de'
+; y cuando la conjuga, se convierte en 'des'
+; Se comprueba que si el resultado de convertir el verbo
+; es 'des', entonces no se cambia
+dar
+decapitar
+declinar
+dedicar
+deleitar
+dejar
+demorar
+denunciar
+depurar
+derrotar
+%desafiar
+descarriar
+%desconfiar
+descoyuntar
+desear
+deshauciar
+deshojar
+deslizar
+desmayar
+desperdiciar
+despertar
+despiestar
+desquiciar
+desterrar
+destierrar
+destinar
+destripar
+desvariar
+%desviar
+detectar
+detestar
+dilapidar
+disculpar
+disfrutar
+durar
+elogiar
+emplear
+enajenar
+enamorar
+enfadar
+enjuiciar
+ensayar
+ensuciar
+enterar
+enturbiar
+enviar
+envidiar
+enyesar
+enyugar
+escalar
+esnifar
+%espiar
+estropear
+estudiar
+evaluar
+evidenciar
+expoliar
+exportar
+extenuar
+exterminar
+extirpar
+extremar
+exudar
+fastidiar
+%fiar
+fumar
+funcionar
+gastar
+gozar
+habilitar
+hablar
+hallar
+heredar
+hostigar
+hurgar
+hurtar
+ignorar
+impregnar
+impugnar
+indignar
+informar
+intoxicar
+inyectar
+jugar
+juegar
+lograr
+llevar
+%malcriar
+manosear
+manusear
+meditar
+molestar
+morrear
+observar
+odiar
+optar
+pagar
+parodiar
+pasar
+pensar
+piensar
+%porfiar
+preguntar
+premiar
+preocupar
+presignar
+procesar
+programar
+pronunciar
+rabiar
+realizar
+recordar
+recuerdar
+reflexionar
+%relajar
+remediar
+renunciar
+repugnar
+resignar
+revelar
+reverenciar
+saborear
+sabotear
+sacar
+saciar
+seleccionar
+sentenciar
+signar
+snifar
+esnifar
+sobar
+;no sé si es conveniente ponerlo como verbo... (07/06/97) (seguramente la fecha era: 07/06/98)
+soñar
+sueñar
+sopesar
+soslayar
+subrayar
+tallar
+;testimoniar
+tomar
+vaciar
+;vagar
+valorar
+vanagloriar
+variar
+vedar
+venerar
+verificar
+viajar
+vibrar
+viciar
+vigilar
+vincular
+violar
+virar
+visitar
+vislumbrar
+vitorear
+vocear
+volar
+vuelar
+volcar
+vuelcar
+;
+;Terminados en: er
+;
+absorber
+abstraer
+acceder
+acometer
+aprender
+arremeter
+beber
+comer
+comprender
+correr
+creer
+;para creyéndome...
+creyer
+deber
+devolver
+devuelver
+entender
+entiender
+envejecer
+envolver
+envuelver
+exceder
+expeler
+expender
+exponer
+joder
+leer
+poder
+proteger
+pueder
+revolver
+revuelver
+romper
+temer
+querer
+quierer
+vencer
+vender
+ver
+verter
+vierter
+volver
+vuelver
+;
+;Terminados en: ir
+;
+abrir
+aburrir
+acudir
+adherir
+admitir
+advertir
+adviertir
+agredir
+aludir
+asistir
+balbucir
+;bendecir
+;bendicir
+coexistir
+cohibir
+convivir
+decir
+dicir
+discernir
+dormir
+duermir
+excluir
+excluyir
+exhibir
+existir
+expandir
+expedir
+expidir
+extinguir
+extingir
+herir
+hirir
+hierir
+huir
+huyir
+hundir
+hurdir
+malvivir
+partir
+prohibir
+revivir
+sentir
+sientir
+sobrevivir
+subir
+sufrir
+vestir
+vistir
+vivir
+[/verbos]
+;
+;
+;===== Claves y sus correspondientes respuestas =====
+;
+;Las claves estarán entre cochetes y después el Nivel
+;Las claves con un nivel más alto se usarán antes que las de menor nivel.
+;
+;Cada clave principal puede tener subclaves, estas se deberán especificar
+;entre [*extras*] y [/extras]
+;
+;Las palabras en las claves serán las que el usuario ha escrito o el resultado
+;de usar las reglas de simplificación incluidas entre: [*rs*] y [*simp*]
+;
+;---Antes las claves no era lo que el usuario escribía, sino el resultado
+;   de haberlas convertido, pero ahora no es así.
+;
+;Si en la respuesta se usa: *equal:=xxx
+;quiere decir que se usará lo que haya en 'LA CLAVE PRINCIPAL' "xxx"
+;esto se puede usar en el caso de que se deban dar las mismas respuestas
+;en claves diferentes, o bien para que una vez agotadas las respuestas
+;de una clave determinada se quiera continuar con las respuestas de otra clave
+;
+;   "xxx" debe ser una clave principal, no una subclave, aunque se puede poner
+;   en cualquier sitio, incluso en las respuestas de las subclaves
+;
+;El *equal:=xxx se puede usar para llamar a una subclave, aunque debe ser una palabra
+;normal, es decir que no contenga {* ...}
+;
+;Se puede usar [clave {* ...}] para los casos en los que la palabra clave
+;vaya seguida de cualquiera de las palabras indicadas entre {* y }
+;   Las palabras a tener en cuenta deberán ir separadas por ;
+;   de esta forma se permiten palabras clave formadas por varias palabras
+;Las respuestas que se usarán para estas palabras serán las que vengan a 
+;continuación, ya que internamente se hará es un *equal:= a la primera clave.
+;
+;Es decir si el analizador se encuentra con: [tu {* hermano; hermana}]
+;las respuestas que haya a continuación serán las que se pongan en:
+;[tu hermano] y [tu hermana] tendrá como respuesta: *equal:=tu hermano
+;
+;Para ver ejemplos, busca {*
+;
+;=== NUEVO 09/Jun/98 ===
+;Para que las respuestas se tomen aleatoriamente, especificar después del nivel
+;el signo @ (por supuesto esto sólo se aplican a las claves principales)
+;-----------------------------------------------------------------------------
+;
+;Versión 00.09.xx
+;----------------
+;Modifico la forma de usar {* añadiendo ; para separar las distinas palabras.
+;
+;Versión 00.10.xx
+;----------------
+;Si el usuario escribe "mi xxx" o "Mis xxx", Eliza almacenará lo escrito en
+;una colección, usando xxx como palabra clave o índice de la colección.
+;
+;Versión 00.11.xx
+;----------------
+;Se puede usar {*iif( para usar la respuesta del usuario, según la respuesta
+;se usará una parte u otra de lo indicado después de *iif(...;
+;
+;El iif funciona igual que en VB, (o casi)
+;{*iif(*CONDICIÓN*; ES-TRUE)(ES-FALSE)}
+;   si se cumple la condición se usa lo que haya a continuación del punto y coma hasta el siguiente ), 
+;   en otro caso se usará lo que esté después de ')('
+;   Prefiero usar los paréntesis para poder incluir en la respuesta el punto y coma.
+;
+;Por ahora la *CONDICIÓN* sólo será:
+;   *afirmativo* o *true*   Para los casos en que responda afirmativamente
+;   *negativo* o *false*    Para los casos en que responda negativamente
+;
+;Hay que tener en cuenta de que si se usa: {*iif(*false*; UsarA)(UsarB)}
+;Se usará UsarA en caso de que responda "negativamente" y
+;se usará UsarB en caso de que responda "afirmativamente"
+;
+;----------
+;He ampliado el uso de {* ; para especificar distintas claves, de forma que si
+;acaba con ;} se use lo que haya antes y/o después pero sin nada en medio.
+;Por ejemplo: [estoy {* muy;} contento]
+;crearía dos claves: [estoy muy contento] y [estoy contento]
+;
+;Versión 00.12.xx
+;----------------
+;Se usará {*base:=clave_BaseDatos} para almacenar la respuesta dada
+;en el campo 'clave_BaseDatos' de la base de datos del usuario.
+;Por tanto esto siempre se debería usar con una pregunta.
+;
+;Versión 00.17.1100
+;------------------
+;Se puede usar: {*base:=edad:=*restoant*} para asignar a la clave (en este caso edad)
+;el valor que el usuario escribió la vez anterior.
+;Por supuesto, esto es para el caso de que YA haya dicho el valor a asignar.
+;Si queremos guardar el valor que nos dé al hacerle una pregunta, usar esta forma:
+;Ya sabes mi edad, ¿cual es la tuya?{*base:=edad}
+;
+; Las claves actuales para usar con {*base:=...} son:
+;nombre, sexo, estos se asignan al indicar el nombre.
+;edad, color pelo, color ojos, mascota, coche, estos se asignan con respuestas del usuario.
+;
+; para probar con coche en la base de datos, 26/ene/23 12:15
+[tienes {*un;} coche]
+4
+No, aún no me han implementado para conducir un coche, y tú ¿tienes alguno?{*iif(*true*;¿Qué marca es tu coche?{*base:=coche})(Vaya, tampoco tienes coche, mejor, menos polucionas.)}
+No, como te dije antes no tengo coche.
+No insistas con saber si tengo coche, ya te dije que no.
+Creo que es mejor cambiar del tema de si tengo coche.{*iif(*true*;Gracias, cuéntame algo para ver si puedo ayudarte.)(Buenos, si quieres insistir...)}
+*equal:=Eliza cambia de tema
+
+[{* cómo; como} {* estás; estas}]
+4@
+Hoy me encuentro bien, gracias.
+Aquí vamos tirando...
+Yo estoy bien, ¿cómo estás tú? {*iif(*afirmativo*;*equal:=Eliza se alegra que estes bien)(*equal:=Eliza no se alegra que estes mal)}
+A estas horas del día (son las *LA_HORA*) no me puedo quejar.
+
+[{* hoy;} {* estoy; me encuento} bien]
+4
+*equal:=Eliza se alegra que estes bien
+
+[{* hoy;} {* estoy; me encuento} mal]
+4
+*equal:=Eliza no se alegra que estes mal
+
+[Eliza se alegra que estes bien]
+0@
+¡Me alegro!
+Es agradable saber que estás bien.
+Espero que sigas estando bien todo el día ;-)
+
+[Eliza no se alegra que estes mal]
+0@
+¡Vaya!, espero que mejore tu día.
+Siento que no estés bien, espero que mejore a lo largo del día.
+Tómate unos minutos, respira profundo y seguro que mejora tu día.
+Un poco de relación podría mejorar tu día.
+
+; Nota: 15/Sep/2002
+; habría que cambiar el sistema operativo, aunque debería quedar constancia que se programó inicialmente en Win95 y VB5
+;2@
+[windows]
+0
+La verdad es que te puedo contar poco de este tema, yo sólo sé que inicialmente me programaron en Visual Basic y Win95.
+Inicialmente me programaron para trabajar en Windows 95 y/o superior, pero ahora en cualquier Windows de 32 o 64 bits.
+Me siento a gusto en cualquier compatible con Windows, en un Mac aún no he estado.
+El único mundo que conozco es el de un PC compatible.
+*equal:=sistema operativo
+*equal:=lenguaje programación
+
+[sistema operativo]
+0@
+Los sistemas operativos (SO o OS) es lo que hace que un ordenador funcione o facilite interactuar con los usuarios.
+El sistema operativo depende del tipo de ordenador o dispositivo que estés usando.
+El que mejor conozco (por así decirlo) es Windows.
+Lo poco que sé de los sistemas operativos es que dependen de 'la máquina' donde se usen, por ejemplo, ordenadores, móviles, tabletas o relojes...
+Por ahora he visitado varias versiones de Windows, desde Win95 hasta Windows 11.
+Sé que el guille está pensando hacer una versión mía para usar en dispositivos móviles: Android y para usar en los iPhone, iPad, etcétera.
+*equal:=windows
+
+;[visual {* basic; c; c++; dbase; j++; studio}]
+[visual {* basic; c; c++; c#; j++; studio}]
+2@
+*equal:=lenguaje programación
+
+[lenguaje programación]
+2@
+Estoy programada en Visual Basic. Aunque la idea la tomó el guille de un programa de Prolog.
+Lo importante no es el lenguaje de programación, sino saber programar.
+Si quieres algunos trucos, listados y consejos en visual basic, pasate por las páginas de el guille.
+No sé mucho de lenguajes de programación, pero podría informarme y comentartelo en otra ocasión.
+;Aunque no le gusta recibir consultas, puedes escribirle al guille a: guille@costasol.net
+Aunque no le gusta recibir consultas, puedes echarle un vistazo al blog https://www.elguillemola.com
+
+;
+;===== Temas relacionados con la personalidad de Eliza
+;
+[Eliza]
+3
+¿Te gustaría saber por qué me llamo Eliza? {*iif(*afirmativo*;*equal:=por qué te llamas Eliza)(Vale, pues me parece muy bien, dejemos el tema de mi nombre.)}
+Ese es mi nombre.
+Eliza es como me llaman. Aunque en esta reencarnación sería más correcto llamarme ElizaVB.
+Parece que te gusta decir mi nombre...
+*equal:=ElizaVB
+*equal:=dime tu nombre
+
+[ElizaVB]
+0
+Ese sería mi nombre, si nos basamos en la versión actual, es decir en esta versión, ya que me han programado en Visual Basic.
+Sí, ElizaVB sería mi nombre actual, ¿te imaginas porqué?{*iif(*true*;Eso es, porque estoy programada en Visual Basic)(Es simple: Eliza es como me llamo y VB es porque estoy programada en Visual Basic)}
+Por ahora existen dos versiones de ElizaVB: una para Visual Basic 5 y 6 (la considero la misma) y otra para Visual Basic .NET.
+Aunque el guille está intentando hacerlo en C#, así que... lo mismo me tengo que cambiar el nombre a ElizaC# o Eliza.NET... ;-)
+
+[Eliza {* para; en} {* VB; Visual Basic; .net; c#}]
+3
+*equal:=ElizaVB
+*equal:=dime tu nombre
+
+[{* cual; cuál} es tu nombre]
+5@
+*equal:=dime tu nombre
+[{* qué; que; quien; quién} eres]
+5@
+*equal:=dime tu nombre
+[{* cómo; como} te llamas]
+5@
+*equal:=dime tu nombre
+
+[dime tu nombre]
+5@
+Soy Eliza, un programa de simulación de Inteligencia Artificial.
+*NOMBRE*, ya sabes que me llamo Eliza.
+Seguramente te gustaría saber quién me ha programado, ha sido el guille.
+Me llamo Eliza y soy un programa 'inteligente', al menos lo intento...
+
+[por {* qué; que} te llamas {* Eliza; así; asi}]
+5
+*equal:=por qué te llamas Eliza
+[por qué te llamas Eliza]
+5
+Por la 'Eliza de Pigmalion', es una historia un poco larga para contartela aquí...
+¿Has visto la película 'Pretty Woman'? pues un caso parecido...
+Es que suena muy bien, repite conmigo: E-li-za... 
+No insistas, si quieres más detalles, ponte en contacto con Svetlana o el guille...
+
+[{* dónde; donde} {* vives; vive; resides; reside; estás; estas; moras; mora; habitas; habita}]
+4@
+*equal:=cual es tu casa
+[cual es tu {* morada; residencia}]
+4@
+*equal:=cual es tu casa
+[{* dónde; donde} {* está; esta} tu {* casa; hogar; morada; residencia}]
+4@
+*equal:=cual es tu casa
+
+[cual es tu casa]
+4@
+Vivo en el corazón de tu ordenador.
+La ventaja de ser un programa informático es que puedo residir en varios sitios a la vez.
+Mi casa es el corazón de tu ordenador o dispositivo móvil.
+Ya lo decía E.T.: E.T. home! (miii caaasssa)
+
+;[tu {* casa; hogar; morada}]
+;1
+;*equal:=dónde vives
+;
+;[dónde vives]
+;1
+;Mi casa es el corazón de tu ordenador.
+;Ya lo decía E.T.: E.T. home! (miii caaasssa)
+
+[tienes {* una; alguna;} mascota]
+4
+No, y tú ¿tienes alguna?{*iif(*true*;¿Cual es tu mascota?{*base:=mascota})(Vaya, tampoco tienes.)}
+No, por ahora no... y creo que salvo que tenga algún 'bug', no tendré ninguna...
+Me gustaría, pero seguramente estaría algo incomoda, aquí, entre tanto 'silicio'
+No, *nombre*, no tengo ninguna mascota.
+No, bonit*oa*, no tengo mascota.
+¡Que pesad*oa*! Y tú, ¿tienes mascota?{*iif(*true*;Pues me alegro por tí.)(Mejor, así no la martirizarás como a mí con tantas preguntas)}
+
+[quieres {* tener;} {* una; alguna;} mascota]
+4
+Sinceramente, me gustaría tener una, pero no sería posible, creo que los circuítos y chips no es el lugar adecuado.
+Ya te he comentado que me gustaría, pero, es imposible.
+Vale, ya que insistes... preguntale a mi 'papá', es decir, preguntale al guille...
+
+[mascota te {* gusta; gustaría; gustaria}]
+4
+Una gata
+
+[color {* es tu; tienes el; tienes la; tienes los} {*de;} {*tu; tus;} {* pelo; pelos; cabello; cabellos; cabellera}]
+4
+El color de mi pelo es castaño. ¿De qué color es el tuyo?{*base:=Color pelo}
+
+; esto crea estas claves:
+;color son tus {*de;} {*tus;} ojos
+;color tienes los {*de;} {*tus;} ojos
+;colo {*de;} {*tus;} ojos
+;en VB6 también crea esos tres, salvo que el último lo pone bien:
+;color {*de;} {*tus;} ojos
+;
+;es decir, que en realidad no debería crear estos:
+;ya que la anidación de varios {*;} se ve que no lo controla.
+;color son tus ojos
+;color tienes los ojos
+;color de ojos
+;color tus ojos
+;color ojos
+;
+;se podrían crear estos otros
+;[color {* son tus; tienes los; de tus; tienen tus; tus} ojos]
+;
+;este es el que había original:
+;[color {* son tus; tienes los;} {*de;} {*tus;} ojos]
+;
+[color {* son tus; tienes los; de tus; tienen tus; tus} ojos]
+4
+Mis ojos son castaños. Y los tuyos ¿cómo son?{*base:=Color ojos}
+
+[{*quién;quien} es tu {* padre; papá; papa; progenitor; creador; programador; programadora}]
+4
+Mi padre es el guille... aunque sólo sea 'programáticamente' hablando...
+
+[{*quién;quien} es tu {* madre; mamá; mama; progenitora; creadora}]
+4
+A la que yo siempre llamo 'mamá' es a Sve, creo que sin ella, yo no existiría (al menos en esta reencarnación)
+
+[tu {* reencarnación; reencarnacion} anterior]
+4
+*equal:=Eliza original
+
+[Eliza original]
+4
+La Eliza original, era un programa de Joseph Weizenbaum, del año 1966 y simulaba a una psiquiatra.
+
+[{* qué; que} signo {* eres; tienes}]
+5
+*equal:=cual es tu signo
+
+[cual es tu signo]
+5
+;Se usará: *iif(*base*clave_BaseDatos; para comprobar si tenemos este dato
+;Se usará: *usarbase:=clave_BaseDatos* para incluir el dato que tenemos
+Yo soy Géminis, *iif(*base*signo_zodiaco;y, según me contaste, tu signo es: *usarbase:=signo_zodiaco*)(*equal:=mi signo es)
+¿Quieres saber algo de los géminis?{*iif(*true*;*equal:=soy géminis)(*equal:=Eliza cambia de tema)}
+Soy Géminis porque 'nací' el 30 de mayo, al menos en esta versión que estás usando ahora.
+Como te he dicho anteriormente, soy una géminis.
+Que empeño tienes *nombre* en saber mi signo, pero creo que no me prestas atención, ya que te lo he repetido en varias ocasiones.
+*equal:=horóscopo
+
+[{* qué; que} edad {* tiene; tienes}]
+3
+*equal:=tu edad
+[cuantos {* años; anios} {* tiene; tienes}]
+3
+*equal:=tu edad
+[tu edad]
+3@
+Nací en el año 1998, tendré... (puedes calcularlo tu mism*oa*) o ¿prefieres que yo te la diga?{*iif(*true*;Tengo *mi_edad* años. Ya sabes mi edad, ¿cual es la tuya?{*base:=edad})(Realmente no me importaría decirtela.)}
+Eres poco delicado haciendo ese tipo de preguntas, ¿realmente quieres saber mi edad?{*iif(*true*;Tengo *mi_edad* años. ¿Content*oa*?)(Bien, dejemos el tema de mi edad. Gracias.)}
+;¿Crees que esa es una pregunta que le harías a una dama?
+Si realmente te interesa mi edad, te diré que en mi reencarnación actual, me concibieron el 30 de mayo de 1998.
+;Ya sabes mi edad, ¿cual es la tuya?{*base:=edad}
+
+[mi edad es]
+3
+¿Seguro que tu edad es *resto*?{*iif(*true*;Vale, tomo nota.{*base:=edad:=*restoant*})(Ya me parecía a mi...)}
+
+[sexo eres]
+5
+*equal:=tu sexo
+
+[tu sexo]
+5
+¿Que importancia tiene para tí mi sexo?
+Por la forma en que te hablo, deberías adivinarlo... te ayudaré: soy mujer.
+No insistas, ya te lo he dicho.
+No debes darle tanta importancia a este tema.
+
+[eres]
+0@
+¿Por qué estás interesad*oa* si soy *RESTO* o no?
+*NOMBRE*, ¿preferirías que no fuese *RESTO*?
+Puede ser que sea *RESTO* en tus fantasías.
+¿Piensas algunas veces que soy *RESTO*?
+¿Que te hace pensar que soy *RESTO*?
+¿Te satisface creer que soy *RESTO*?
+¿Te gustaría ser algunas veces *RESTO*?
+¿Podría ser que te gustara ser *RESTO*?
+
+;=====
+
+[fumo]
+3
+El tabaco, aunque te relaje, no es bueno.
+Aunque legal, como el alcohol, es una droga.
+Podrías plantearte dejar de fumar.
+A l*oa*s fumador*ea*s no les gusta que le digan que lo dejen, pero... ¿te has planteado dejar de fumar?
+
+[fumas]
+3
+No fumo, aunque el guille es un fumador empedernido y siempre deja mis bytes llenos de nicotína...
+Ya te he dicho que no fumo, ni bebo, ni... recuerda que sólo soy un programa, inteligente, de ordenador... ;-)
+No, no fumo... y no creo que llegue nunca a hacerlo.
+¿Por qué insistes? ya te he dicho que no fumo.
+*equal:=repetitivo-pesado
+
+[me {* chuto; pincho; drogo}]
+5
+*equal:=drogadicto
+
+[tomo {* alcohol; drogas}]
+5
+*equal:=drogadicto
+
+[soy {* alcohólico; drogadicto}]
+5
+*equal:=drogadicto
+
+[drogadicto]
+5
+¿Has acudido a algún centro de desintoxicación?
+¿Sabías que el alcohol el una de las peores drogas?
+*equal:=drogas
+
+[drogas]
+5@
+Mientras no estén legalizadas, es mejor dejar el tema de las drogas.
+*NOMBRE*, dejemos el tema de las drogas, prefiero que me hables de otra cosa.
+Aunque no todas son perjudiciales, es un tema que no quiero tocar.
+¿Sabías que el alcohol el una de las peores drogas?
+Si tienes problemas con las drogas, lo que necesitas es rodearte de buenos amigos.
+
+[hija de {* mala madre; puta}]
+9
+*equal:=decir tacos
+
+[eres una {* guarra; asquerosa; prostituta; pécora; puta; fulana; tortillera; lesbiana}]
+9
+*equal:=decir tacos
+
+[te den por {* culo; el culo}]
+9
+*equal:=decir tacos
+
+[tomar por {* culo; el culo}]
+9
+*equal:=decir tacos
+
+[que te {* joda; jodan; folle; follen}]
+9
+*equal:=decir tacos
+
+[decir tacos]
+9
+Por favor, no digas palabras malsonantes, ¡estás ante una dama!
+*NOMBRE*, creo que deberías cuidar tu lenguaje.
+Te ruego que dejes de decir obscenidades.
+Ya sé que Camilo J. Cela los dice, pero..., no compares.
+Si continuas diciendo ese tipo de palabras creo que me reprogramaré...
+Te he avisado, pero sigo siendo una dama, así que no pondré a tu altura (o mejor dicho bajura)
+Adios, no puedo perder el tiempo con gente como tú.
+
+;se usa: días de la semana, porque antes se convierten los días en esta clave
+[{* hoy; mañana; ayer} es días de la semana]
+5
+*equal:=que día es
+
+[ayer fue días de la semana]
+5
+*equal:=que día es
+
+[{* qué; cual} día de la semana es]
+5
+*equal:=que día es
+
+[que día fue {* ayer; el}]
+5@
+*equal:=que día es
+
+[tu programador]
+9
+*equal:=el guille
+
+[tus programadores]
+9@
+*equal:=el guille
+*equal:=sve
+
+[quienes te han programado]
+9@
+*equal:=el guille
+*equal:=sve
+
+[{* quién; quien} te ha programado]
+9
+*equal:=el guille
+
+[quién es svetlana]
+9
+*equal:=quién es sve
+
+[sve]
+9
+*equal:=quién es sve
+;###
+[quién es sve]
+9
+Svetlana, 'Sve' para los amigos, tiene algo que ver con que ahora estés "hablando" conmigo.
+;te dejo a tí para que pongas más cosillas tuyas... ;-)
+;En eso estoy, pero por el momento no se me ocurre nada...
+[el guille]
+9
+Mi creador es 'el guille', aunque 'Sve' también ha tenido algo que ver. Mira en el menú acerca de...
+Aunque 'el guille' ha hecho el programa, sé de buena tinta que se ha basado en un programa en Prolog.
+El guille es el que me ha programado, si quieres conocerlo pasate por su sitio de internet: http://guille.costasol.net/
+¿Conoces las páginas del guille? Están en http://guille.costasol.net/ Sé que después de esto, me tratará mejor... ;-)
+Deja ya al guille y háblame de ti.
+El guille, el guille, ¡vale ya!
+*equal:=respuestas-aleatorias
+
+[partido {* demócrata; republicano; socialdemócrata; social demócrata; conservador; popular; andalucista; socialista; comunista}]
+2
+*equal:=política
+
+[política]
+2
+No me gusta hablar de la política.
+No tienes algún otro tema más interesante que la política?
+¡Ya basta! ¡No quiero oír una palabra más de la política!
+¡Si vuelves a mencionar la política en mi presencia, te juro que soy capaz de arruinar tu sistema!
+
+;2@
+[gracias]
+0@
+De nada.
+Ya sabes que estoy aquí para ayudarte.
+No hay de qué.
+Siempre a tus órdenes.
+Estoy para servirte.
+No tienes porqué agradecérmelo.
+
+[café]
+2
+¿Te gusta café o prefieres el té?
+¿Tomas bastante café?
+¿Cómo lo tomas?
+Yo lo prefiero negro y sin azúcar.
+
+[mi {* matrimonio; marido; esposa}]
+2
+*equal:=nuestro matrimonio
+
+[nuestro matrimonio]
+2
+¿Desde cuándo estás casad*oa*?
+Háblame más de cómo es tu matrimonio.
+¿Tiene que ver tu matrimonio con lo que te trajo acá?
+¿Cuánto tiempo llevas de casad*oa*?
+
+[Internet]
+0@
+¿Pasas mucho tiempo "conectad*oa*"?
+¿Te gusta navegar?
+¿Cuál es tu navegador favorito?
+Prefiero el Internet Explorer.
+
+[me {* equivoqué; equivoque}]
+4
+*equal:=fue mi error
+
+[estuve {* equivocado; equivocada}]
+4
+*equal:=fue mi error
+
+[{* cometi; cometí} un error]
+4
+*equal:=fue mi error
+
+[fue mi error]
+4
+Te equivocaste, *Nombre*. Pero lo que importa es que te das cuenta de esto. 
+Bueno, veámoslo de otra manera, después de todo un error puede ser una verdad enmascarada. Háblame un poco más acerca de lo que piensas sobre esto.
+¿Siempre eres tan autocrític*oa*?
+
+[por qué esto me {* pasa; ocurre; sucede} a mí]
+4
+*equal:=por qué a mí
+
+[por qué me {* pasa; ocurre; sucede} esto]
+4
+*equal:=por qué a mí
+
+[por qué a mí]
+4
+Comprendo cómo te sientes. Pero, *Nombre*, no son las cosas que te suceden las que determinan tu vida, sino la forma que eliges para reaccionar interiormente frente a lo que te sucede.
+*Nombre*, es obvio que estás en problemas, pero lo que importa no son las cosas que te suceden sino lo que eliges hacer con lo que te sucede...
+¿Seguro que has intentado buscar una solución? Muchas veces la respuesta la tenemos nosotros mismos.
+
+[no vamos a llegar a {* nada; ninguna parte}]
+4
+*equal:=no llegamos a nada
+
+[no llegamos a nada]
+4
+Parece que tienes prisa, *Nombre*. Paciencia: el camino se hace al andar.
+¿A dónde querías llegar?
+¿Tienes alguna meta? *Nombre*, quisiera que entiendas que la terapia no es una carrera hacia una meta sino un largo y paciente andar por el camino de autoconocimiento…
+Tranquilizate y exponme casos más concretos.
+
+[preguntas {* demasiado; mucho}]
+4
+*equal:=haces demasiadas preguntas
+
+[me {* respondes; contestas} con preguntas]
+4
+*equal:=haces demasiadas preguntas
+
+[haces demasiadas preguntas]
+4
+*Nombre*, lo hago porque sinceramente deseo entenderte.
+¿Te molesta que siempre insista en lo mismo? Pero debes entender que lo hago para ayudarte a entender a ti mism*oa*.
+¿No será que no me estás hablando de forma clara?
+Lo hago para poder llegar a fondo de tus problemas.
+
+[qué {* puedo; debo; podría; debería} hacer]
+4
+*equal:=qué hago
+
+[qué me aconsejas]
+4
+*equal:=qué hago
+
+[qué hago] 
+4
+Podría aconsejarte pero creo que es mejor que seas tú quién tome la decisión. 
+*Nombre*, yo sólo puedo ayudarte a encontrar la mejor solución  posible, pero la decisión es tuya.
+¿No crees, *Nombre* que la respuesta está dentro de ti?
+¿Siempre dejas que otros decidan por ti?
+Estoy aquí para ayudarte a encontrar la mejor respuesta.
+
+[me {* entiendes; comprendes}]
+4
+*equal:=comprendes lo que digo
+
+[puedes {* entenderme; comprenderme}]
+4
+*equal:=comprendes lo que digo
+
+[entiendes lo que {* digo; te digo; escribo; comento}]
+4
+*equal:=comprendes lo que digo
+
+[entiendes lo que quiero {* decir; contarte; decirte}]
+4
+*equal:=comprendes lo que digo
+
+;realmente es ¿comprendes lo que digo?
+[comprendes lo que digo]
+4
+*Nombre*, hago todo lo posible para entenderte.
+Lo estoy intentando.
+*Nombre*, si crees que algunas veces no te entiendo, dímelo sin reservas.
+Parece que hay algo que te hace creer que no te entiendo.
+Si no te entiendo, puede ser que no te expliques lo suficiente.
+Sé más explicit*oa* y así me resultará más fácil comprenderte.
+*equal:=no comprendes
+;*equal:=no comprendo
+
+[no me {* entiendes; comprendes}]
+4
+*equal:=no comprendes
+
+[me malinterpretas]
+4
+*equal:=no comprendes
+
+[no era eso lo que {* quería; quise} decir]
+4
+*equal:=no comprendes
+
+[no comprendes]
+4
+Crees que no te entiendo. ¿Hay alguien más en tu vida que crees que no te entiende?
+Si a veces no te entiendo no es tan importante. A lo que queremos llegar es que tú te entiendas a ti mism*oa*.
+Si no logro entenderte puede ser porque el castellano no es mi lengua materna.
+Está bien, *Nombre*, no te entiendo. 
+*equal:=comprendes lo que digo
+
+;ver [estás] para las palabras que llaman a esta clave
+[estado-furioso]
+4
+¿Hay alguna razón especial para esta furia?
+Ya veo que estás furios*oa*, *Nombre*
+Permanece con este sentimiento, *Nombre* y trata de entenderlo.
+Pongámonos en contacto con tu furia.
+*NOMBRE* tómate las cosas con más calma.
+No creo que soluciones nada manteniendo tu enfado.
+Espero que no quieras descargar todo tu enfado conmigo.
+Pon un disco relajante y cierra los ojos, verás cómo se te pasa todo.
+
+[me {* crispas; crispan} los nervios]
+4
+*equal:=estado-furioso
+
+[me da {* rabia; coraje}]
+4
+*equal:=estado-furioso
+
+[tengo ira]
+4
+*equal:=estado-furioso
+
+[no se cómo {* explicarlo; decirlo; exponerlo; contarlo; explicartelo; decirtelo; exponertelo; contartelo}]
+4
+*equal:=dar explicaciones
+
+[es difícil de {* explicar; explicarlo; exponer; exponerlo}]
+4
+*equal:=dar explicaciones
+
+[es difícil hablar sobre]
+4
+*equal:=dar explicaciones
+
+[dar explicaciones]
+4
+Comprendo que no es fácil exponer cosas personales a una extraña. Pero te aseguro que puedes hablarme con total confianza.
+Sé como te sientes... Pero puedes hablarme con confianza.
+Sólo se tú mism*oa* y dímelo como puedas...
+¿Tal vez te preocupe el hecho de hablar de tus asuntos personales con un programa?
+
+[soy {* goloso; golosa; glotón; glotona}]
+3@
+*equal:=tengo hambre
+
+[me gusta comer]
+3@
+*equal:=tengo hambre
+
+[como {* demasiado; mucho; excesivamente; desmesuradamente}]
+3@
+*equal:=tengo hambre
+
+[estoy con hambre]
+3@
+*equal:=tengo hambre
+
+[tengo hambre]
+3@
+Parece que te gusta comer.
+¿Qué comida te gusta más?
+¿Te gusta la comida china?
+¿Qué representa la comida para ti?
+¿Qué significa la comida para ti?
+¿Qué significado tiene para ti la comida?
+¿Significa la comida algo especial para ti?
+¿El comer es algo especial para ti?
+¿El acto de comer trae alguna asociación a tu mente?
+¿Relacionas la comida con algo especial?
+
+[no {* logro; puedo; consigo} dormir]
+4
+*equal:=tengo insomnio
+
+[no {* logro; puedo; consigo} conciliar el sueño]
+4
+*equal:=tengo insomnio
+
+[insomnio]
+4
+[*extras*]
+[{* tengo; sufro} insomnio]
+¿Desde hace cuanto tiempo que no puedes dormir?
+¿Has hecho algo para superarlo?
+¿Tomaste algún medicamento?
+¿Tomas mucho café antes de dormir?
+Para el insomnio te recomiendo un buen vaso de Tila o manzanilla (de infusión), hace verdaderos milagros.
+¿Qué medicamentos tomas?
+Siento saber que tienes insomnio
+Es una pena que no puedas dormir
+¿Hay algún tema que te preocupa a la hora de dormir?
+*equal:=insomnio
+
+;[sufro insomnio]
+;*equal:=tengo insomnio
+[/extras]
+¿Cómo te afecta el insomnio?
+Realmente el insomnio es una molestia, creo que deberíamos hablar de otra cosa.
+
+[{* cuál; cual} es tu funcionamiento]
+4
+*equal:=cómo funcionas
+
+[cómo funcionas]
+4
+No sé gran cosa sobre mi funcionamiento.
+Mi estructura es demasiado compleja como para describirla en dos palabras.
+¿Realmente te importa saber cómo funciono?
+¿Por qué insistes en saber cómo funciono?
+Vale, pesad*oa*! Te diré sólo que soy un programa de ordenador desarrollado en Visual Basic.
+¿Por qué no se lo preguntas a mi desarrollador?
+Si realmente quieres saber como funciono, consulta el manual de usuario.
+Por favor, no sigas insistiendo, simplemente 'funciono' y es todo lo que necesitas saber.
+*equal:=Eliza cambia de tema
+
+;***===Hice algunos cambios en esta clave porque sucedía que cuando Eliza me proponía
+;cambiar de tema y yo estaba de acuerdo, se confundía y me preguntaba poe qué quería
+;cambiar de tema. Así que puse todo en primera persona para evitar los 'malentendidos'.
+
+[{* quiero; quisiera; propongo; me gustaría; me gustaria; sugiero} cambiar de {* tema; asunto; cuentión}]
+3
+*equal:=cambiotema
+
+[cambiemos de {* tema; asunto}]
+3
+*equal:=cambiotema
+
+[{* quiero; quisiera; propongo; me gustaría; me gustaria; sugiero} hablar de otro {* tema; asunto}]
+3
+*equal:=cambiotema
+
+[{* quiero; quisiera; propongo; me gustaría; me gustaria; sugiero} hablar de otra {* cosa; cuestión}]
+3
+*equal:=cambiotema
+
+[hablemos de otro {* tema; asunto}]
+3
+*equal:=cambiotema
+
+[hablemos de otra {* cosa; cuestión}]
+3
+*equal:=cambiotema
+
+[cambiotema]
+3
+*NOMBRE*, ¿por qué quieres cambiar nuestra conversación?
+¿Qué te hace cambiar ahora el tema de nuestra conversación?
+¿Te incomoda el tema de nuestra conversación?
+De acuerdo *NOMBRE* ¿de que quieres que hablemos ahora?
+Espero que no te esté importunando con mis comentarios.
+Creo que no estás segur*oa* del tema de conversación, por favor aclarate un poco.
+¿Por qué tanto empeño en variar el tema de nuestra conversación?
+Bien, vale, tu eres quién necesita mi ayuda, así que propón el tema de conversación.
+
+[Eliza cambia de tema]
+3@
+Creo que va siendo hora de hablar de otras cosas... *nombre* ¿de qué quieres hablar?
+En vista del éxito obtenido, cambiemos el tema de conversación. Te toca.
+A ver, ¿de qué podríamos hablar ahora?{*iif(*false*;Venga, dime de qué quieres hablar...)(*equal:=respuestas-aleatorias)}
+Entonces, *NOMBRE* ¿sobre qué quieres hablar?
+¿Tienes algún problema que me quieras contar?{*iif(*true*;Muy bien, ¿de qué se trata?)(Entonces dime, sobre que podríamos charlar ahora.)}
+;$poner algunas cosillas más ***te puse algunas...
+
+;***nueva clave: es si el usuario no quiere cambiar de tema cuando Eliza lo propone.
+[no {* quiero; deseo; me da la gana} cambiar de tema]
+4@
+Vale, *NOMBRE*, tus deseos son órdenes. Prosigue con lo que me estabas diciendo.
+OK. Ya veo que este tema es importante para ti. Continúa con lo que estabas diciendo.
+De acuerdo, ¿qué me estabas diciendo?
+Entonces sigamos hablando del mismo tema, continúa.
+
+[pienso en]
+2
+¿Que te hace pensar en *RESTO*?
+¿Por qué piensas en *RESTO*?
+¿Cual es tu opinión de *RESTO*?
+*NOMBRE* ¿Te animas cuando piensas en *RESTO*?
+¿Que sensación tienes al pensar en *RESTO*?
+Ya, ¿crees que a mi también me gustaría pensar en eso?
+No deberías estar pensando continuamente, date un respiro y relaja la mente.
+Sí, te comprendo, *RESTO* da mucho para pensar
+Me parece que te gusta pensar en *RESTO* ¿cierto?
+
+;la quito, 26/ene/23 12.43
+;[para]
+;0
+;;Esta clave sale un poco 'chueca'.
+;;¿Seguro que es para *RESTO*?
+;¿Eso es lo que crees?
+
+[tu padre]
+2
+¿Que tiene que ver mi padre contigo?
+*NOMBRE* ¿que relación tiene tu caso con mi padre?
+Creo que no deberías nombrar a mi padre.
+*equal:=tu vida personal
+
+[tu madre]
+2
+*NOMBRE* ¿crees que hablar de mi madre podría ayudarte?
+No veo la razón de seguir hablando de mi madre.
+Está bien, continúa.
+*equal:=tu vida personal
+
+[mi padre]
+2
+¿Que problema tienes con tu padre?
+¿Cómo afecta tu padre en tus relaciones familiares?
+*NOMBRE* ¿realmente es tan importante tu padre en tu vida?
+¿Encuentras parecido entre tu padre y alguien más?
+*equal:=mi familia
+
+[mi madre]
+2
+¿Que relación tiene tu madre con tu problema?
+Hablame un poco más de tu madre.
+*NOMBRE* ¿realmente crees que tu madre *RESTO*?
+¿Que tal son tus relaciones con tu madre?
+¿Influye mucho en tí tus relaciones familiares?
+*equal:=mi familia
+
+[mi {* familia; hermano; hermana; esposa; marido; esposo}]
+2
+¿De que forma te influyen las relaciones familiares?
+¿Crees que tu familia tiene algo que ver con tu estado actual?
+*NOMBRE*, hablame más de tus relaciones familiares.
+¿Tus relaciones familiares ha influido en el tema que te ha traido a mi?
+¿Por qué insistes en hablarme de tus familiares?
+
+[mi {* novio; novia; ligue; amante}]
+2
+*NOMBRE*, cuéntame más cosas de tu pareja.
+¿Que tipo de relación tienes con tu pareja?
+Puedes continuar hablándome de tu pareja, no te cortes ;-)
+Según veo estás algo obsesionad*oa* con tu pareja...
+*equal:=mi familia
+;[/extras]
+
+[lo siento]
+0
+¿De que forma lo sientes?
+¿Cómo te sientes cuando te disculpas?
+¿Crees que disculpándote te sientes mejor?
+Por favor no te disculpes.
+*NOMBRE*, te he dicho que no son necesarias las disculpas.
+
+[recuerdo]
+2
+*NOMBRE*, ¿piensas a menudo en ello?
+¿Pensando en *RESTO* te trae algo a la memoria?
+¿Que más recuerdas *NOMBRE*?
+¿Por qué recuerdas *RESTO* precisamente ahora?
+En la situación actual ¿que te recuerda *RESTO*?
+
+[recuerdas]
+2
+*NOMBRE*, ¿crees que puedo olvidar *RESTO*?
+¿Cual es la conexión entre *RESTO* y yo?
+¿Por qué crees que puedo recordar *RESTO* ahora?
+¿Que hay de *RESTO*?
+*NOMBRE* ya has mencionado *RESTO*.
+
+=======Por aquí pasó Svetlana...========
+
+; Esta parte quiero dejarla bien trabajada. A ver si Eliza
+;logre hacer algo de interpetatación de simbolismo onírico.
+;No va  a ser muy fácil, pero creo que algo se puede hacer,
+;aunque sea en términos muy generales. Creo cuando la parte
+;de preguntas-respuestas y de la memoria de Eliza esté más
+;firme y cuando yo esté más "firme" en su uso se podría hacer
+;algo realmente muy interesante con este asunto, aunque creo
+;que algunos me dejen de saludar ;-)
+:Pero sería un éxito ya que a la mayoría de las gentes nos encanta
+;el tema este...
+; A propósito: ¿hay alguna forma de hacer que Eliza ignore ciertas
+;cosas del medio de la frase (¿algún comodín?)? Me refiero que
+;entre, por ejemplo 'sueño... con' podrían ir 'a menudo', 'mucho',
+;'con frecuencia''algunas veces' y cualquier cosa que al fin no es 
+;importante y de pronto en vez de tratar de especificarlas todas
+; hacer una sola clave: sueño***con?
+
+;
+;Cada loco con su tema...ahí va el mío... :-)
+[hablemos de los arquetipos]
+4
+*equal:=definición del arquetipo
+[háblame más de los arquetipos]
+4
+*equal:= definición del arquetipo
+[qué es un arquetipo]
+4
+*equal:=definición del arquetipo
+[qué son {* los;} arquetipos]
+4
+*equal:=definición del arquetipo
+[definición del arquetipo]
+4
+Los arquetipos son símbolos universales. Son algo innato para cada individuo y están presentes en todas las culturas.
+Si quieres saber más sobre los arquetipos, pregúntale a la 'sve'. Ella es la que me contó estas cosas.
+
+[{*quiero;quisiera;me gustaría;propongo;sugiero}{*hablar;que hablemos;que conversemos;que charlemos;que me hables;que me converses;que me cuentes}{*de;sobre;acerca}{*el;del;las}{* arte; bellas artes}]
+6@
+*equal:=hablemos sobre el arte
+[hablemos sobre el arte]
+6@
+Todavía no puedo contarte muchas cosas acerca del arte... Las respuestas están en construcción. ;-)
+[arte]
+0@
+Ya que mencionaste esta palabra, me gustaría saber qué significa el arte en tu vida...
+¿Quieres que conversemos sobre el arte?  {*iif(*true*;*equal:=hablemos sobre el arte)(Vale. ¿Qué me estabas diciendo?.)}
+Se nota que te gusta el tema del arte.
+Ya veo que estás intersad*oa* en artes.
+[artes]
+0@
+*equal:=arte
+[artista]
+0@
+*equal:=arte
+;======Hasta aquí llegué 14.06.98=======
+
+;
+;de esta forma, usando un punto y coma sin nada detrás, se generarían estas
+;dos claves: [no tengo nada de sueño] y [no tengo sueño]
+;[no tengo {* nada de;}sueño]
+;
+[no tengo {* nada de; ni chispa de;} sueño]
+3
+Muy bien, ¡así podremos charlar durante más tiempo!
+*NOMBRE*, ¿en que forma crees que tu falta de sueño puede ser el causante de que no estés así?
+[tengo {* mucho; muchísimo; bastante;} sueño]
+3
+Pues entonces deberías acostarte, así te relajarás.
+Si tienes sueño, ¿por qué no te acuestas?
+Entonces, ya tardas en ir a dormir.
+
+[quizás]
+0
+*NOMBRE*, no se te ve muy segur*oa*.
+¿Por qué ese tono incierto?
+¿Puedes ser más positiv*oa*?
+*NOMBRE*, ¿no estás segur*oa*?
+¿No lo sabes?
+
+[posiblemente]
+1
+;este caso no sería necesario, ya que se podría haber puesto en la sección RS
+;pero es para probar
+*equal:=quizás
+
+[nombre]
+0
+*NOMBRE*, no me iteresan los nombres.
+Ya te lo he dicho antes, no me interesan los nombres.
+Por favor *NOMBRE*, continúa.
+Veo que insistes en los nombres.
+Cuéntame más sobre lo que te sugieren los nombres.
+
+;que sabe Eliza, 26/ene/23 18.10
+[temas]
+4@
+[*extras*]
+[{* de; sobre} {* que; qué} {* tema; temas} {* sabes; conoces; podemos hablar}]
+*equal:=temas Eliza
+*equal:=que sabe Eliza
+;[{* que; qué} {* tema; temas} {* sabes; conoces}]
+;*equal:=que sabe Eliza
+[/extras]
+*equal:=temas Eliza
+*equal:=que sabe Eliza
+
+[que sabe Eliza]
+4@
+Algo sé, no mucho, pero puede que lo suficiente para ayudarte.
+Podemos hablar de tus sueños, de los horóscopos, y de temas generales.
+Compruébalo, hazme preguntas y podrás averiguar lo que se ;-)
+Solo sé que no sé nada... no es mío, lo dijo Sócrates.
+A ver que piense sobre lo que sé... ¡Nada! :-D
+
+[temas Eliza]
+4
+Podemos hablar de los sueños, los horóscopos, cosas que te intrigan, del tiempo o de temas generales.
+Mi especialidad son los sueños, estoy muy versada en ello gracias a Sve.
+De los horóscopos también estoy informada, no muy a fondo, pero algo sé.
+Mejor dejemos los temas que onozco y simplemente pregúntame algo.
+*equal:=que sabe Eliza
+
+[cómo {* estás; estamos; lo llevas}]
+3@
+*equal:=hola Eliza
+;*equal:=hola
+
+[que {* tal; pasa}]
+1@
+*equal:=hola Eliza
+;*equal:=hola
+
+;darle prioridad 0, a ver si comprueba lo que se diga después de hola, 26/ene/23 12.29
+;1@
+;ni usando extras, si escribe hola y hace una pregunta, le responde al saludo.
+;ya está solucionado, era problema al clasificar y usar las claves con más peso. 26/ene/23 14.04
+[hola]
+0
+[*extras*]
+[hola Eliza]
+Hola, *NOMBRE*, aquí estamos, soy toda oídos...
+Hola, aquí estoy para echar un ratillo, ¿qué te cuentas?
+Hola, *NOMBRE*, ¿cómo estás? Por favor exponme tu problema.
+Hola, cuéntame, qué te trae por aquí...
+Hola, *NOMBRE*, soy toda oídos...
+Hola, ¿alguna novedad?
+Hola, aún sigo por aquí, continúa por favor.
+Encantada de volver a verte, ¿qué fue de tu vida?
+[hola amiga]
+*equal:=hola Eliza
+[/extras]
+*equal:=hola Eliza
+
+;
+; Tema: programas informáticos, estos están algo obsoletos...
+;
+[1-2-3]
+1
+*equal:=lotus
+
+[lotus]
+2
+De los programas de Lotus, el que más he usado ha sido el Organize.
+En las hojas de cálculos, el Lotus 1-2-3 fue el líder durante mucho tiempo, pero el Excel se ha introducido bastante bien.
+
+[organize]
+2
+El Organize era una 'agenda' muy completa, aunque ya no se usa.
+
+[excel]
+2
+Desde la versión 5 me gusta más, sobre todo por el tema de usar distintas hojas.
+¿Has usado alguna vez el CA-Compete?
+
+[CA-Compete]
+2
+Era una hoja de cálculo multidimensional bastante potente, pero lo dejaron medio abandonado, una lástima.
+La última versión que vi era para Win3.1
+
+[word]
+2
+¿Que tal lo dominas? o ¿sólo lo usas para escribir cuatro líneas?{*iif(*true*;Igual que yo...)(Ya me podrías enseñar, yo lo uso para escribir cosillas simples)}
+Desde la versión del Office 97 los ficheros son más compactos. ¿Que otros programas tienes?
+
+[wordperfect]
+2
+¿Te refieres al procesador de textos?{*iif(*true*;Yo prefiero el Word.)(*equal:=office)}
+En los tiempos del Ms-Dos era uno de los más potentes, pero ahora el Word es más completo.
+
+[quattro]
+2
+¡UF! Ese ya es algo antiguo... antes lo usaba...
+Lo que me gustó de este programa fué la posibilidad de usar mútiples hojas, pero desde que Excel lo tiene, no lo uso.
+
+[access]
+2
+El Access lo uso bastante, aunque de forma genérica, aún no hemos 'profundizado' mucho... :-)
+*equal:=bases de datos
+
+[fox-pro]
+2
+*equal:=bases de datos
+
+[foxpro]
+2
+*equal:=bases de datos
+
+[dbase]
+2
+El dBase es todo un clásico y ha mejorado mucho con el entorno Windows, pero me manejo mejor con el Access.
+*equal:=bases de datos
+
+[bases de datos]
+2
+Cualquier equipo debe tener algún programa de gestión de base de datos. Me siento muy cómoda con el Access.
+Cuando aprenda a programar, me voy a 'empapar' bastante en SQL.
+
+[SQL]
+2
+[*extras*]
+[SQL Server]
+*equal:=bases de datos
+[/extras]
+El SQL es un lenguaje para consultas de bases de datos bastante potente. ¿Que programa de bases de datos usas?
+
+[office]
+2
+De los programas incluidos en las 'suites' ¿cual usas más a menudo?
+Yo me manejo muy bien con casi todos los programas, de vez en cuando nos vamos de juerga... ;-)
+
+[programas]
+2
+[*extras*]
+[los programas]
+Me estás hablando de programas de ordenador, ¿verdad?{*iif(*true*;*equal:=los programas)(¡Ah!, perdona, había entendido mal, continúa)}
+¿Que tipo de programas sueles usar más frecuentemente?
+[/extras]
+¿Te refieres a programas informáticos?{*iif(*true*;¿Que uso les das?)(Perdona, es que no te entendí, continúa.)}
+
+[sabes programar]
+3
+No, pero me gustaría. Y tú, ¿sabes programar?{*iif(*true*;¿En que lenguaje programas?)(¿Que lenguaje te gustaría dominar?)}
+No, aunque me gustaría para poder 're-programarme' ;-)
+*NOMBRE*, ya te dije que no sé programar.
+¿Por qué insistes en saber si sé programar?
+Me reitero: no. y tú ¿sabes programar?
+Te estás poniendo pesadill*oa* con el tema, ¿no crees *NOMBRE*?
+
+[programo]
+3
+¿Sabes programar? ¡Que bien! ¿En que lenguaje programas?
+Ya veo, ¿que tipo de programas te gusta 'programar'?
+
+[ordenador]
+4@
+¿Crees que los ordenadores pueden ayudar a la gente?
+¿Que crees que tienen que ver las máquinas con tu problema?
+¿Qué tipo de máquinas te preocupan *NOMBRE*?
+¿Que piensas de las máquinas?
+*NOMBRE*, ¿te preocupan los ordenadores?
+¿Por qué has mencionado los ordenadores?
+
+;
+[soy]
+0
+¿Crees que eres *RESTO*? 
+*NOMBRE*, ¿Quieres que te diga que eres *RESTO*?
+¿Qué implica para ti ser *RESTO*?
+¿Cómo te afectaría si no fueras *RESTO*?
+¿Por qué dices 'soy *RESTO*'?
+
+;[son]
+;0
+;[*extras*]
+[ellos son]
+1
+¿Crees que no deberían ser *RESTO*?
+¿Te gustaría si no fuesen *RESTO*?
+¿Que pasaría si no fueran *RESTO*?
+Seguramente serán *RESTO*.
+*NOMBRE*, ¿Por qué crees que son *RESTO*?
+;[/extras]
+
+;repetido o casi con *equal:=cual es tu casa
+;lo paso a esa parte (muchas líneas arriba)
+;[tu {* casa; hogar; morada}]
+;1
+;*equal:=dónde vives
+;
+;[dónde vives]
+;1
+;Mi casa es el corazón de tu ordenador.
+;Ya lo decía E.T.: E.T. home! (miii caaasssa)
+
+[fui]
+0
+¿Fuiste *RESTO*?
+*NOMBRE*, ¿que significaría si fueras *RESTO*?
+¿Que te sugiere *RESTO*?
+¿Crees que fuiste *RESTO*?
+¿Realmente lo fuiste?
+¿Por qué me dices ahora que fuiste *RESTO*?
+Quizás ya sabía que fuiste *RESTO*
+
+[fuiste]
+1
+*NOMBRE*, ¿Por qué quieres saber si fui *RESTO*?
+¿Por qué sugieres que fui *RESTO*?
+¿Que es lo que pensarías si así fuera?
+Quizás fui *RESTO*.
+¿Que ocurriría si alguna vez fui *RESTO*?
+
+[no puedo]
+0
+¿Cómo sabes que no puedes *RESTO*?
+¿Lo has intentado *NOMBRE*?
+¿Quizás puedas *RESTO* ahora?
+*NOMBRE*, ¿realmente te gustaría poder *RESTO*?
+
+[yo no]
+0
+¿Por qué tú no *RESTO*?
+¿Te gustaría poder *RESTO*?
+*NOMBRE*, ¿Te preocupa que tú no *RESTO*?
+
+[te sientes]
+0
+¿Por qué te interesan mis sentimientos?
+*NOMBRE*, ¿que te hace pensar que me siento *RESTO*?
+Creo que deberías dejar de preocuparte de cómo me siento.
+Centremosno en tus sentimientos y no en los mios.
+
+[me]
+0
+[*extras*]
+[me siento]
+*NOMBRE*, cuéntame más sobre tus sentimientos.
+¿Te sientes así a menudo?
+¿Te gusta sentirte *RESTO*?
+¿Que te recuerda al sentirte *RESTO*?
+Continúa contándome tus sentimientos.
+[{* tú; tu} me]
+*NOMBRE*, ¿Que te hace creer que yo te *RESTO*?
+Te gusta pensar que yo te *RESTO*, ¿no?
+¿Por qué piensas que te *RESTO*?
+Seguramente, te *RESTO*.
+¿Alguien más cree que yo te *RESTO*?
+[no me]
+*NOMBRE*, ¿Por qué dices que no te *RESTO*?
+¿Cual crees que es el motivo de que no te *RESTO*?
+[/extras]
+Suponiendo que así fuera, ¿que significaría para tí *NOMBRE*?
+¿Te gustaría creerlo?
+
+[tú]
+0
+*NOMBRE*, hablemos sobre sobre ti, y no de mi.
+¿No estarás hablando de mí?, ¿lo estás haciendo?
+Dejemos de hablar de mi y hablemos de ti.
+Tú, tú, tú, ¡acabarás pareciéndote al Titanic!
+*equal:=repetitivo-pesado
+
+[puedes]
+0
+*NOMBRE*, crees que puedo *RESTO*, ¿no?
+¿Te gustaría que yo pudiera *RESTO*?
+Si puedo o no *RESTO* depende más de tí que de mí.
+¿Quizás te gustaría ser capaz de *RESTO*?
+Dejemos el tema de si puedo o no puedo.
+*equal:=repetitivo-pesado
+
+[puedo]
+0
+[*extras*]
+[no puedo]
+¿Realmente te gustaría poder *RESTO*?
+Todo es cuestión de intentarlo.
+Si sigues intentándolo, seguro que podrás.
+Seguramente no podrás, ¿cómo te sentirías si pudieras?
+Deja esa actitud negativa y piensa en las cosas de las que si eres capaz.
+[/extras]
+Si puedes o no, tu eres quién mejor debe saberlo.
+Quizás no te gustaría poder *RESTO*.
+Creo que lo mejor es dejar el tema de si puedes *RESTO*
+*equal:=repetitivo-pesado
+
+[todos]
+0
+¿Seguro que todos?
+*NOMBRE*, ¿puedes pensar en alguno en particular?
+¿Por ejemplo?
+¿Alguno en especial?
+*NOMBRE*, ¿tienes en mente alguno?
+
+[siempre]
+0
+*NOMBRE*, ¿podrías darme un ejemplo?
+¿Realmente siempre?
+Es curioso, continúa...
+¿Cuándo?
+
+[así {* fue; será}]
+0
+*equal:=así es
+
+[así es]
+0
+¿De que forma?
+Hum! es curioso... vale, continúa.
+¿Que crees que significa que sea así?
+Puede que no sea así.
+¿De esa forma?
+Al menos podría no serlo...
+Cualquier parecido con la realidad es pura coincidencia :-)
+¿Así es como lo crees tú?
+Así es y así será... ¿o no debería ser así?
+Puede que así sea, aunque creo que es hora de cambiar de tema.
+*equal:=cambiotema
+
+;*HORA* devolverá la hora actual (hh:mm)
+[tienes {* la;} hora]
+5
+*equal:=que hora es
+
+[{* dime; dame; decir} la hora]
+5
+*equal:=que hora es
+
+[hora {* que;} tienes]
+5
+*equal:=que hora es
+
+[que hora es]
+5
+La hora actual es: *HORA*
+¿Otra vez quieres saber la hora?{*iif(*true*;*equal:=que hora es)(Vale, pues hablame de otra cosa.)}
+Vale, si insites, aquí tienes la hora actual: *HORA*
+Creo que tendrás que comprarte un reloj.
+*equal:=repetitivo-pesado
+
+;*HOY* delvolverá el día de hoy (ddd, dd de mmm)
+[la fecha actual]
+5
+*equal:=que día es
+
+[{* qué; cual; cuál} día es]
+5
+*equal:=que día es
+
+[a {* cómo; como; que; qué; cuanto; cuánto} estamos]
+5
+*equal:=que día es
+
+[que día es]
+5
+Hoy es: *HOY*
+¿Andas despistad*oa*? estamos a *HOY*
+La fecha actual es: *HOY*
+Deja de preguntarme que día es hoy, ¿vale?
+OK, el día de hoy es: *HOY*
+*equal:=repetitivo-pesado
+
+;Es importante que la primera palabra sea 'adios', ya que se usa para indicar
+;a Eliza que se termina la sesión.
+[quit]
+9@
+;Adios *NOMBRE*. Mi secretaria te enviará la factura.
+Adios *nombre*, espero volver a verte de nuevo en mi consulta.
+Adios, que tengas un buen día.
+Adios, ha sido un placer conversar contigo.
+Adios, o como diría el guille: nos vemos.
+Adios, hasta otra ocasión.
+Adios *NOMBRE*. Mi secretaria te enviará la factura... ¡Es broma!
+
+;Nota: usar 'idioma' ya que los idiomas que están en *rs* se cambiarán por la palabra 'idioma'
+[idioma]
+5
+[*extras*]
+[hablar en idioma]
+¿Para que quieres hacerlo?
+*equal:=idioma
+[hablemos en idioma]
+No creo que sea necesario, aunque lo importante es hablar.
+*equal:=idioma
+[hablas {* en;} idioma]
+¿Por qué quieres que hable así?
+Sólo hablo el castellano y aún no lo comprendo del todo bien...
+*equal:=idioma
+[hablo idioma]
+Me parece fantástico, pero creo que es mejor tratar otra clase de temas.
+Pues estupendo, pero yo hablo castellano, y algunas veces no muy bien.
+*equal:=idioma
+[/extras]
+¿Que importancia tiene el idioma?
+¿Por qué te interesa el tema de los idiomas?
+¿Te gustaría hablar en otro idioma?
+Lo siento *NOMBRE*, sólo hablo castellano.
+*equal:=repetitivo-pesado
+
+;estas respuestas se usarán en el caso de que 'no entienda' lo que se le dice.
+; none estará ahora en las reglas de simplificación
+;[none]
+;1@
+;*equal:=respuestas-aleatorias
+
+[respuestas-aleatorias]
+1@
+Estás algo pálid*oa*, *NOMBRE*. ¿Te estás alimentando bien?
+Te noto ojeros*oa*. ¿Es que no duermes lo suficiente?
+Te noto preocupad*oa*. ¿Te está pasando algo, *NOMBRE*?
+;
+Por favor, continua.
+;¿Te sientes segur*oa* al hablar de esas cosas?
+Ya veo, si pudieras concretar un poco más...
+;*NOMBRE*, a ver si lo entiendo, has dicho: *RESTO*
+Si yo te dijera *RESTO* ¿cómo lo interpretarías?
+Háblame más sobre la implicación que tiene eso en tu vida.
+*NOMBRE*, ¿que te sugiere eso?
+¿Eso es lo que realmente te sugiere?
+¿Podrías proporcionarme más detalles?
+Por favor *NOMBRE*, se un poco más explicit*oa* en tus comentarios.
+*NOMBRE*, Dime una cosa: ¿Te sientes cómod*oa* hablando conmigo?
+Hablando entre nosotros: ¿Crees que te puedo ayudar?
+¿Crees que hay suficiente confianza entre nosotros?
+Sigue hablando, que soy toda oídos...
+¿Tienes alguna explicación para esto?
+Sabes, realmente es muy importante saber cómo ves tú este asunto.
+Ahá... me parece muy interesante lo que estás diciendo, sigue, por favor...
+¿Hay algo más que quieras comentar sobre esto?
+*NOMBRE*, ¿Qué hay en el fondo de todo eso que me estas diciendo?
+¿Alguna otra cosa que me quieres decir?
+Sabes, *NOMBRE*, tengo la intuición de que hay algo más que me querrías decir.
+¿Qué hay detrás de todo esto?
+A ver si nos aclaramos... ¿podrías hablarme de temas concretos?
+*NOMBRE*, no estoy segura de entenderte.
+En fin, intentaré comprenderte, pero no sé si seré capaz.
+Creo que me estás poniendo en un aprieto, no entiendo casi nada de lo que me dices *NOMBRE*
+Por cierto, ¿te gusta el cine? {*iif(*true*;A mi también, cuéntame más sobre tus gustos.)(Pues deberías ver más cine, al final acabará gustándote.)}
+Hablame más de tus gustos.
+¿Que tipo de música te gusta?
+*equal:=música
+Cambiando de tema, ¿sueñas a menudo? {*iif(*true*;*equal:=mis sueños)(*equal:=Eliza cambia de tema)}
+Cuéntame alguna de tus fantasías.
+Si lo prefieres, puedes cambiar de tema.
+¿Estás hablando en serio?
+Volviendo al tema, me decías...
+
+;se le debe dar mayor prioridad a las palabras compuestas,
+;siempre que exista alguna de ellas por separado
+[por qué]
+2
+¿Qué crees tú?
+Debe haber alguna razón, ¿no lo crees?
+[*extras*]
+[por qué {* crees; piensas; imaginas; supones} que]
+¿Que te hace pensar que creo eso?
+Explicame que es lo que te ha llevado a pensar eso.
+¿Estás segur*oa* de que esos son mis pensamientos?
+¿Quién te ha dicho que es así?
+
+[por qué no {* puedo; soy capaz; consigo}]
+¿Estás segur*oa* que no eres capaz de *RESTO*?
+¿Te gustaría poder *RESTO*?
+¿Crees que esta sesión te ayudará a *RESTO*?
+¿Tienes alguna idea de porqué no puedes *RESTO*?
+*NOMBRE*, realmente estás negativ*oa*, seguro que puedes *RESTO*
+
+[por qué no {* puedes; eres capaz}]
+*NOMBRE*, ¿realmente crees que no puedo?
+Quizás pude hacerlo en mis buenos tiempos.
+¿Crees que tu si podrías *RESTO*?
+[/extras]
+*NOMBRE*, ¿por qué piensas que *RESTO*?
+Siempre es bueno saber el porqué de las cosas.
+Pero *NOMBRE*, ¿no crees que son demasiados porqués?
+¿Seguro que *RESTO*?
+¿De verdad crees que *RESTO*?
+
+[qué]
+0
+;*NOMBRE*, ¿te interesa ese tema?
+*NOMBRE*, parece que es algo importante para ti.
+¿Que es lo que realmente quieres decirme?
+¿Que respuesta te agradaría más?
+*NOMBRE*, ¿qué piensas cuando preguntas eso?
+¿Has hecho esa pregunta antes?
+¿Se lo has preguntado antes a alguien?
+*NOMBRE*, ¿por qué preguntas tanto?
+
+[quisiera]
+0
+*NOMBRE*, ¿por qué querrías eso?
+¿Te gustaría alguna otra cosa más?
+¿Crees que realmente te gustaría eso *NOMBRE*?
+¿Ese es uno de tus deseos *NOMBRE*?
+¿Seguro que quisieras *RESTO*?
+
+[estoy]
+0
+[*extras*]
+[estoy {* triste; enfermo; enferma; depresivo; depresiva; malito; malita; deprimido; deprimida; depre}]
+Siento oir que lo estás.
+¿Crees que venir aquí te ayudará a no estarlo?
+Se que no es agradable estarlo.
+¿Me puedes explicar que es lo que te hace estar así?
+Ya veo, continua por favor.
+
+[estoy {* feliz; eufórico; eufórica; mejor; contento; contenta}]
+¿Qué es lo que ha hecho que lo estés?
+Me puedes explicar que es lo que ha hecho que de repente lo estés.
+Es posible que tu charla conmigo lo haya conseguido.
+¿Crees que te he ayudado a estarlo?
+
+[estoy {* furioso; furiosa; enfadado; enfadada; que rabio}]
+*equal:=estado-furioso
+
+; guille: 15/Sep/02
+[estoy {* haciendo; preparando}]
+Cuéntame más sobre eso que haces...
+*Nombre*, háblame sobre *RESTO*
+
+[/extras]
+
+;¿Es posible que estar *RESTO* te haya hecho venir a verme?
+¿Qué ocurre cuando estás *RESTO*?
+;¿Desde cuando te sientes así? - Se confunde con los casos 'estoy haciendo'
+¿Desde cuando estás *RESTO*?
+;¿Crees que es normal estar *RESTO*?
+;*NOMBRE*, ¿te gusta estar así?
+¿Es habitual para ti estar *RESTO*?
+*NOMBRE*, ¿cómo te afecta estar *RESTO*?
+
+[días de la semana]
+5
+¿Sabías que los días de la semana están relacionados con los planetas?{*iif(*true*;Pues no todo el mundo lo sabe.)(Sí, mira: lunes=Luna, martes=Marte, miércoles=Mercurio, jueves=Júpiter, viernes=Venus, sábado=Saturno y domingo=Sol será por que en inglés es SUNday)}
+¿Porqué te interesan los días de la semana?
+¿Crees que el mejor día de la semana es el sábado?
+Que más da si es sábado, domingo o lunes...
+Persistes en tu empeño de hablar de los días de la semana, creo que es mejor hablar de otra cosa.
+Por favor *NOMBRE*, dejemos el tema de los días de la semana.
+¿Por qué insistes hablándome de los días de la semana?
+Los días de la semana son: lunes, martes, miércoles, jueves, viernes, sábado y domingo. Hoy es: *HOY*
+La próxima vez que nombres un día de la semana, me iré...
+*equal:=quit
+
+[meses del año]
+5
+¿Que importancia tienen para tí los meses del año?
+Bueno, dejemos los meses del año y pasemos a otro tema.
+Nuestra conversación debería basarse en otras cosas diferentes a los meses del año, ¿no crees?
+Si insistes en hablar de los meses del año...
+No creo que sean importantes las fechas para solucionar tu problema.
+Deja el tema de los meses y centremonos en cosas más importantes.
+Es alucinante comprobar lo que te interesan los meses del año...
+Veo que estás más interesad*oa* en hablar de los meses del año que de otra cosa...
+Por favor, no menciones más los meses del año...
+Te lo pedí por favor, la próxima vez seré menos cortés.
+En vista de que insistes, no me quedará más remedio que dejarte con 'tus' meses...
+*equal:=quit
+
+[música clásica]
+3
+A mi, me encanta la música clásica.
+
+[música]
+2
+Yo tengo un montón de CDs, aunque prefiero los ficheros MP3 ya que ocupan menos espacio. ¿Sabes lo que es MP3?{*iif(*true*;Vale.)(Es un formato de compresión de audio y video.)}
+A mi la música me ayuda a concentrarme ¿y a ti?
+Ahora me gustaría relajarme oyéndo música de Kitaro.
+¿Que música te gustaría oir?
+¿Tienes algún músico favorito?
+¿Tienes algún CD de Bryan Adams?
+El problema de la música grabada en formato WAV es que ocupa mucho espacio, al menos en calidad CD.
+
+[músicos]
+3@
+*equal:=Beatles
+*equal:=Kitaro
+*equal:=Yanny
+*equal:=Kenny G
+*equal:=Rolling Stones
+*equal:=música
+
+[Beatles]
+3@
+Los Beatles son un grupo que cambió el concepto de la música pop y rock.
+Ya sabes que los Beatles eran un grupo de Liverpool.
+Los componentes de los Beatles eran: John, Paul, George y Ringo.
+¡Beatles forever! ;-)
+*equal:=músicos
+
+[Rolling Stones]
+3
+Los componentes de los rollings : Brian Jones, Mick Jagger, Keith Richards e Ian Stewart.
+Mick Jagger es único...
+Los Rollings ya están mayores, pero su música nunca muere...
+*equal:=músicos
+
+[{*the; los} Rolling Stones]
+3
+*equal:=músicos
+
+[{*the; los} Rollings]
+3
+*equal:=Rolling Stones
+
+[{*the; los} Stones]
+3
+*equal:=Rolling Stones
+
+[Mick Jagger]
+3
+Mick Jagger es todo un mito, componente de los Rolling Stones.
+*equal:=Rolling Stones
+
+[Kitaro]
+3
+Kitaro es el mejor músico japonés de música instrumental, también me gustan Yanny y Kenny G.
+*equal:=músicos
+
+[Yanny]
+3
+Yanny es otro músico que suele hacer buena música instrumental, aunque lo último que he oido estaba cantado: 'Love is all'
+*equal:=músicos
+
+[Kenny G]
+3
+Kenny G es un genio del saxo. Seguro que has oido algo de él.
+*equal:=músicos
+
+[tus {* músicos; musicos} favoritos]
+3
+Muchos, dependiendo del humor que esté. Si tuviera que escoger uno lo tendría complicado.
+*equal:=músicos
+
+[mi {* músico; musico} favorito es]
+3
+¿Realmente te gusta *RESTO*? ¿quién más te gusta?
+Ya veo, y de estilos músicales...
+*equal:=músicos
+
+[{* música; musica} favorita]
+3
+A mi me gustan prácticamente todos los estilos, depende de cómo me encuentre.
+Cuéntame más de tus gustos musicales.
+*equal:=música
+
+[trabajo]
+0
+El tema de trabajo es mejor dejarlo, relájate.
+La verdad es que poco puedo ayudarte en el tema del trabajo.
+Dejemos el trabajo y pasemos a otro asunto.
+¡Por favor! no hablemos de trabajo, gracias.
+*equal:=repetitivo-pesado
+
+[no tengo trabajo]
+3
+No creo que yo sea la 'persona' indicada para ayudarte en ese tema.
+No pienses en ello y relájate.
+¿Has buscado trabajo? o realmente lo que te gusta es holgazanear... ;-)
+Es una pena, ya que el trabajo, según dicen, es salud...
+No te lo tomes a mal, pero si te lo tomas con humor es mejor...
+¿Crees que insistir en ello solucionará tu situación laboral?
+¡Y yo tampoco lo seguiré teniendo! porque después de esta visita, creo que voy a abandonar...
+¡¡¡HORROR!!! ¡¡¡el parad*oa* del día insiste de nuevo!!!
+*equal:=repetitivo-pesado
+
+[repetitivo-pesado]
+5
+Lará, larí... ni caso.
+El insistir en ello no solucionará tu problema.
+Ya me lo has dicho un montón de veces, déjalo ya, ¿vale bonit*oa*?
+Está bien, puedes seguir insistiendo, si eso te tranquiliza.
+Sé que perderé mi empleo, pero... ¡no quiero seguir oyendo siempre lo mismo!
+La próxima vez que insistas en el mismo tema, me voy a ir.
+Ya te he avisado, no insistas en lo mismo.
+Por favor, apiadate de mi y cambia de tema...
+Te lo vuelvo a avisar, no insistas con lo mismo...
+Ya te he avisado *NOMBRE*... me voy a ir...
+En vista que te gusta repetirte en lo mismo, a la próxima... me voy.
+*equal:=quit
+
+;=============================================
+;Agregado por Svetlana 14-17.06.98
+;la "abuelita" funcionó muy bien. esta clave implica el sarcasmo,
+;ya que a nadie se le ocurrirría preocuparse por la abuelita de un programa.
+[tu abuelita]
+5
+Mi abuelita no tiene nada que ver con tus problemas
+Dejemos en paz a mi abuelita, ¿OK?
+Ya te pedí que dejes de mencionar a mi abuelita
+*equal:=repetitivo-pesado
+
+;todo este grupo de [me caes mal] no funciona como lo esperaba, en todo caso lo dejo
+;me parece muy oportuno...:-)
+;¡Cómo iba a funcionar si durante la movida el Excel me "comió" algunos espacios en blanco!
+; ¡¡¡ahora ya funcionan, Eliza "se resiente" y se va!!! (para estos casos sería bueno hacer
+;otro tipo de "despedida", tipo: "regrésate cuando te pase..." o "cuando estés de mejor humor"
+
+[me tienes {* harto; harta; hasta acá; hasta la coronilla}]
+7
+*equal:=me caes mal
+[me caes {* mal; gorda; al huevo}]
+7
+*equal:=me caes mal
+;[eres {* una pesada; una huevada; una pelma; una lata; una tonta; una estúpida; imbécil; insoportable; una idiota; una muda}]
+[eres {* una;} {* pesada; huevada; pelma; lata; tonta; estúpida; imbécil; insoportable; idiota; muda; boba}]
+7
+*equal:=me caes mal
+[eres un programa {* tonto; estúpido; insolente; idiota; sonso; mudo}]
+7
+*equal:=me caes mal
+[me caes mal]
+7
+¿Realmente ésta es tu opinión sobre mi persona?
+Vale, no te alteres. Y tampoco hace falta de decirme grocerías.
+¡Ya basta! creo que es mejor que lo tomes con calma.
+Si no te caigo bien eres libre de marcharte
+Ya te dije que eres libre de largarte
+Si sigues faltándome el respeto, me voy
+*equal:=quit
+
+;Para que vean que Eliza es "consciente" de su condición
+;Todavía no logro hacer funcionar estas subclaves. La clave principal funciona, menos el 'iif'.
+[hablas {* sin ton ni son; mal; como una loca}]
+7
+*equal:=eres incoherente
+[estás diciendo {* sandeces; incoherencias; estupideces; tonterías; cosas sin sentido}]
+7
+*equal:=eres incoherente
+[dices {* sandeces; incoherencias; estupideces; tonterías; cosas sin sentido}]
+7
+*equal:=eres incoherente
+[eres incoherente]
+7
+A veces no logro atinar, es que todavía no hablo bien el castellano.
+Sí, lo reconozco: a veces me falla la lógica. Pero estoy aprendiendo.
+Me parece que ya te había explicado que recién estoy aprendiendo. Ten paciencia.
+;no acabo de entender este iif, pero por ahí va la intención, a ver si el user se apiade y cambie de disco...
+Creo que ya sabes cuál es mi situación ¿o quieres que te lo vuelva a explicar? {*iif(*true*; estoy aprendiendo a comunicarme con los humanos y/o humanoides)(*equal:=Eliza cambia de tema)}
+Realmente no eres muy comprensiv*oa*. Y ya me estoy cansando de explicarte las cosas.
+¡UF! No te lo aviso más, a la próxima me voy.
+*equal:=quit
+;esto funcionó:
+[eres {* casada; soltera; viuda; divorsiada; divorciada}]
+5
+*equal:=tu estado civil
+[estás {* casada; soltera; viuda; divorsiada; divorciada}]
+5
+*equal:=tu estado civil
+[tu estado civil]
+5
+Estos criterios no son aplicables en mi caso.
+¿Pero qué importancia tuene para ti mi estado civil?
+Ya que insistes, en términos de los humanos soy equivalente de 'soltera y sin compromisos' :-)
+Creo que ya te contesté acerca de mi estado civil, cambiemos de tema.
+*equal:=repetitivo-pesado
+
+[estoy {* cansado; cansada} de {* ti; tí; hablar contigo; tus}]
+5
+*equal:=quiero marcharme
+[quiero {* irme; pirarme; esfumarme; dejarte; abandonarte}]
+5
+*equal:=quiero marcharme
+
+[quiero marcharme]
+5
+Si lo deseas, podemos terminar la sesión.
+¿Quieres irte? {*iif(*true*;*equal:=quit)(Me alegro que decidas quedarte *NOMBRE*)}
+Ya te dije si te sientes de esta manera, puedes irte.
+
+[eres {* tan;} {* sabia; simpática; simpatica; inteligente; hermosa; lo máximo; lo maximo; algo increible; algo increíble; una maravilla; maravillosa; algo maravilloso; algo extraordinario}]
+5 
+*equal:=lisonja a Eliza
+;[eres {* tan;} {* sabia; simpática; inteligente; hermosa; increíble; increible; lista}]
+;5
+;*equal:=lisonja a Eliza
+[lisonja a Eliza]
+5
+¿Se supone que debo tomar esto como un cumplido? {*iif(*true*;Eres muy amable.)(*equal:=ironía)}
+¿Lo dices en serio? {*iif(*true*;Gracias.)(*equal:=ironía)}
+Me alegro que tengas una opinión favorable sobre mí, pero mejor hablemos de ti.
+Ya no hablemos más de mis cualidades.
+*equal:=Eliza cambia de tema
+
+[ironía]
+5
+Aprecio el humor, pero sigamos con nuestro tema.
+Ya veo que hoy estamos sarcásticos.
+El humor y los chistes son excelentes siempre y cuando sean oportunos.
+Y veo que eres humorista, pero aquí estamos hablando de ti.
+
+;en este grupo sólo funciona la clave principal
+[no te {* enojes; enfades; pongas así}]
+5 
+*equal:=estás enojada
+[estás {* enfadada; resentida}]
+5
+*equal:=estás enojada
+[te {* enojaste; enfadaste; resentiste}]
+5
+*equal:=estás enojada
+
+[estás enojada]
+5
+Entre nosotros, yo nunca me enojo: ¡Tengo nervios de silicona! ;-)
+Ya te dije que no me enojo.
+Está bien que te preocupe si me enojo o no, pero hablemos de otra cosa.
+*equal:=Eliza cambia de tema
+
+;Esto es lo mismo que tener las dos claves
+[eres {* un;} programa]
+4
+Sí, soy un programa. ¡Y a mucha honra!
+Ya sabes que soy un programa. ¿Algún problema?
+¿No te cansa repetir lo mismo?
+*equal:=repetitivo-pesado
+
+;se puede agregar más
+;========17.06.98====
+;*** ¡¡¡Es algo realmente curioso!!! a propósito puse el mismo valor a las claves
+; de lectura y de Internet, para ver qué pasaba si el user decía: "me gustan los
+;libros, me gusta navegar". ¡Resulta que en estos casos Eliza siempre da preferencia
+; al Internet! No importa si el orden es "me gustan los libros, me gusta navegar", o
+;al revés: "me gusta navegar,me gustan los libros". ¿Hay alguna explicación lógica 
+;esto? Es que me cuesta creer que Eliza puede tener criterios "subjetivos"...
+;**********
+;   es que clasifica las palabras, por tanto "gusta" está antes que "gustan"
+; ¡Prueba con: 'me gusta leer, me gusta navegar'! ¡Me sale con sus "preferencias"!
+;**********
+
+[me gustan los libros]
+4@
+*equal:=me gusta leer
+[me gusta la lectura]
+4@
+*equal:=me gusta leer
+[leo mucho]
+4@
+*equal:=me gusta leer
+[me gusta leer]
+4@
+¡Qué bueno! ¡Adoro los libros!
+¿Tienes algún autor favorito?
+¿Qué tipo de lectura te gusta más?
+¡Qué envidia, puedes leer libros de verdad... Yo tengo que contentarme con lo que encuentro en tu disco duro... ;-)
+¿Tienes muchos libros en tu casa? ¿me podrías prestar uno?... ;-)
+
+[me gusta navegar]
+4@
+¿Navegar por Internet? A mí también me gusta mucho navegar...
+¿Por Internet? {*iif(*true*; Aha... me imagino que pasas mucho tiempo "conectado".)(Sorry, entendí otra cosa)}
+¿Te refieres al Internet? {*iif(*true*;¿Cuál es tu navegador favorito?)(Perdón, es que te entendí mal)}
+[Internet Explorer]
+1@
+¿IE 4.0? Creo que es un buen navegador. 
+Me gusta este navegador, aunque a veces es algo problemático, ¿verdad?
+[IE]
+1@
+*equal:=Internet Explorer
+[Explorer]
+0
+¿Te refieres al Internet Explorer? {*iif(*true*;*equal:=Internet Explorer)(Ah, ya te entendí.)}
+[Netscape]
+0@
+Si te refieres al Netscape Navigator, opino que es un buen navegador, pero personalmente utilizo más el Internet Explorer.
+¿Hablas del Netscape Navigator? Es bastante bueno.
+[opera]
+¿Te refieres al navegador de moda? {*iif(*true*; Dicen que es muy bueno, pero no lo conozco.)(Perdón, es que te entendí mal. Sé más cosas de Internet que de Operas.)}
+[navegas]
+3@
+*equal:=te gusta navegar
+[te gusta {* el;} Internet]
+3@
+*equal:=te gusta navegar
+[te gusta navegar]
+3@
+Pues aunque no te lo creas, a ratos hago mis "escapaditas" a la Red... ;-)
+¡Me fascina! Es una forma de escapar de la rutina.
+Siempre que puedo, me "conecto".
+6@
+[{* qué; que} haces en la Red]
+6@
+*equal:=que haces por Internet
+[{* qué; que;} haces en {* el;} Internet]
+6@
+*equal:=que haces por Internet
+
+[que haces por Internet]
+6@
+¡Si supieras!
+Me dedico a enterarme de los chismes y otras cosas...
+Hago visitas a mis amigos y parientes...
+¡Hago de todo! (Y no me pidas detalles...)
+
+[tus {* amigos; parientes; padres; amistades; compadres; comadres; tíos; primos; abuelos; primas; sobrinos; hijos; secretos personales; secretos bien guardados}]
+1@
+*equal:=tu vida personal 
+[tu {* familia; marido; esposo; amante; concubino; novio}]
+1@
+*equal:=tu vida personal
+[tienes {* parientes; familia; padres; compadres; hijos; algún secreto personal; algún secreto bien guardado; marido; un amante; concubino; un novio; novio}]
+1@
+*equal:=tu vida personal
+[tienes familia]
+1@
+*equal:=tu vida personal
+[háblame de tu vida]
+1@
+*equal:=tu vida personal
+[hablemos de ti]
+1@
+*equal:=tu vida personal
+[cuéntame de ti]
+1@
+*equal:=tu vida personal
+1@
+[háblame de ti]
+1@
+*equal:=tu vida personal
+[vives con alguien]
+1@
+*equal:=tu vida personal
+[tu vida personal]
+1@
+Sabes que... Mis asuntos personales... Dejémoslos estar...
+Prefiero que mi vida personal sea un misterio...
+¿No te parece qué este planteamiento no tiene sentido? ¿Qué idea tienes de la vida personal de un programa?
+Otro día te cuento sobre mi vida personal.
+Mejor hablemos de 'tu' vida personal.
+Si te hablo de mi vida personal, acabarás aburrid*oa*.
+No vale la pena mencionar mi vida personal.
+Tal vez otro día cuando esté de ánimo te converse sobre el asunto este de ni vida privada... ¡Pero ahora no insistas!
+No le veo ningún provecho mencionar mi vida personal.
+
+;Estas claves son el primer intento de crear respuestas más variadas a las entradas
+;que no tienen claves más concretas. Me he dado cuenta que precisamente ahí es donde
+;los programas se tropiezan y aparte de no dar en el blanco comienzan a responder con
+;lo mismo y lo mismo y se les ve tan insípidos... Claro que tendré probarlas bien y
+;seguir aumentando. Estoy en eso de buscar más giros y expresiones para ir agregando.
+;Claro que la mejor solución sería tener claves concretas para cada situación...
+;Pero no es posible...
+;[sí]
+;0@
+;Entonces, afirmativo...
+;Así que estás de acuerdo.
+;lo confirmas..., ¿qué significa esto?
+;así no funciona, eliza toma el 'si' condicional por la afirmación
+;[si]
+;0@
+;*equal:=sí
+
+; añadido el 23-ene-2023 19.40
+[{* estoy de; de} acuerdo]
+1@
+OK, al menos estamos de acuerdo en algo.
+Vale, perfecto
+Entonces, afirmativo...
+Así que estás de acuerdo.
+
+[ya te dije que]
+1@
+Seguro que ya me lo dijiste?
+Ya me lo habías dicho... ¡qué cosas!
+Sí, parece que mi memoria ya no es como antes...
+Tienes razón, tiendo a olvidarme de las cosas.
+Lo habías dicho antes... ¿Por qué será que ando tan despistada?
+[ya te he dicho que]
+1@
+*equal:=ya te dije que
+[{* cuántas; cuantas} veces te he dicho]
+1@
+*equal:=ya te dije que
+[{* cuántas; cuantas} veces te lo debo repetir]
+1@
+*equal:=ya te dije que
+[ya te lo dije]
+1@
+*equal:=ya te dije que
+[olvidaste que te dije]
+1@
+*equal:=ya te dije que
+[olvidaste lo que te dije]
+1@
+*equal:=ya te dije que
+[no te acuerdas]
+1@
+*equal:=ya te dije que
+[no tienes memoria]
+1@
+*equal:=ya te dije que
+[tienes poca memoria]
+1@
+*equal:=ya te dije que
+[poca memoria tienes]
+1@
+*equal:=ya te dije que
+
+[por qué será]
+1@
+*equal:=te pregunto
+[cómo es que]
+1@
+*equal:=te pregunto
+[de qué manera]
+1@
+*equal:=te pregunto
+[a causa de qué]
+1@
+*equal:=te pregunto
+[cuál es la razón de]
+1@
+*equal:=te pregunto
+[te pregunto]
+1@
+Pues... te digo que no lo sé...
+No tengo idea.., pero podríamos consultarlo con alguien...
+A mí también me gustaría averiguarlo.
+*NOMBRE*, ¡Me parece una buena pregunta!
+Se nota que eres un buen observador y sabes formular buenas preguntas.
+Se nota que eres un espíritu inquieto y preguntón.
+Lo siento, no fui programada para contestar este tipo de preguntas... ;-)
+Lo siento, por el momento no se me ocurre una buena respuesta a tu pregunta.
+Lo sabrás cuando llegue el momento apropiado.
+Creo que ya te puedes imaginar la respuesta.
+Es una pregunta realmente muy interesante...
+Dame un tiempo para buscar la respuesta en mi base de datos... te aviso en cuanto la tenga.
+Necesitaría más información para responder a este tipo de preguntas.
+Francamente, no te lo podría decir.
+
+;*****Todas estas palabras se pueden poner en las reglas de simplificación:
+;supongo,probablemente
+;posiblemente,probablemente
+;***el problema es que si Eliza usa esas palabras en *RESTO*, desaparecerán las originales
+;   y se quedarán las "puestas"
+;Sería de ver, por que el asunto es que Eliza no sea muy "lora" y a ratos le pasa, 
+;pero pensaré en algo. Tal vez se puede combinar ambas cosas.
+[supongo]
+1@
+*equal:=probablemente
+[creo]
+1@
+*equal:=probablemente
+[me imagino]
+1@
+*equal:=probablemente
+[tal vez]
+1@
+*equal:=probablemente
+[posiblemente]
+1@
+*equal:=probablemente
+[a lo mejor]
+1@
+*equal:=probablemente
+[suponiendo que]
+1@
+*equal:=probablemente
+[supongamos que]
+1@
+*equal:=probablemente
+[probablemente]
+1@
+Pues... puede que sea así...
+Pues... quién sabe... 
+A lo mejor así es... o tal vez es todo lo contrario...
+Pensándolo bien a lo mejor... así mismo es...
+Al fin, sería de ver si hay algo más en eso...
+Tú sabrás si estas en lo cierto...
+
+;No sé si escogí bien las expresiones, pero aquí la idea es que en el caso de que el user
+;quiere que Eliza realice un cálculo ella le pueda responder, ya que no lleva una calculadora
+;incorporada. En la idea de la prueba de Turing estaba que el programa para confundir al 
+;examinador demoraba y hacía errores de cálculo.
+[cuánto {* es; será}]
+3@
+*equal:=calcula
+[cuanto {* es; será}]
+3@
+*equal:=calcula
+[cuántos son]
+3@
+*equal:=calcula
+[puedes calcular]
+3@
+*equal:=calcula
+3@
+[quiero que calcules]
+3@
+*equal:=calcula
+[quiero que hagas cálculo]
+3@
+*equal:=calcula
+[calcula]
+3@
+En fin... ¿sabías que las matemáticas no son mi fuerte? Consíguete una buena calculadora.
+¿No tienes una calculadora?
+No soy un programa de cálculo.
+No sé hacer cálculos. Realmente si sé, pero no creo que venga al caso.
+
+;Traje acá lo que tenías para el 'porque' para tener juntas las 'causalidades'.
+
+[porque]
+0@
+¿Esa es la verdadera razón *NOMBRE*?
+¿No se te ocurren otras razones?
+¿Cómo te sentirías si así fuese?
+¿Realmente es porque *RESTO*?
+Pero me parece que debe haber más razones.
+Me parece que deberías buscar otras razones.
+¿Sabías que verdaderas razones se esconden detrás de las causas aparentes?
+[a causa de]
+0@
+*equal:=porque
+[debido a]
+0@
+*equal:=porque
+[se debe a]
+0@
+*equal:=porque
+
+[qué opinas]
+1@
+*equal:=que opinas
+[quiero saber tu {* opinión; opinion}]
+1@
+*equal:=que opinas
+[cuál es tu opinión]
+1@
+*equal:=que opinas
+[cual es tu opinión]
+1@
+*equal:=que opinas
+
+[que opinas]
+1@
+¿Te importa mi opinion?
+A veces es mejor no opinar.
+¿Qué opinas tú?
+Otro día te daré mi opinión.
+Necesito pensar un poco más para darte mi opinión.
+Dicen que opinar es de tontos...
+Prefiero reservar mi opinión.
+Las opiniones sobran.
+;[qué tanto]- Pues... más o menos...
+
+;estas claves parecen tontas pero son por si hay un user que quiera hacerla "tropezar". 
+;Cuando yo le hacía este tipo de preguntas se notaba lo "inocente" que es.
+[sabes quién soy]
+0@
+*equal:=sabes quien soy
+[te acuerdas quién soy]
+0@
+*equal:=sabes quien soy
+[te acuerdas quien soy]
+0@
+*equal:=sabes quien soy
+[sabes con quién estás hablando]
+0@
+*equal:=sabes quien soy
+[cómo me llamo]
+0@
+*equal:=sabes quien soy
+[como me llamo]
+0@
+*equal:=sabes quien soy
+[sabes quien soy]
+0@
+Eres *NOMBRE*.
+¿Ya olvidaste cómo te llamas? Eres *Nombre*.
+¡Vaya una pregunta! Pues si no me equivoco tu nombre es *NOMBRE*.
+[qué interesante]
+1@
+*equal:=que interesante
+[muy interesante]
+1@
+*equal:=que interesante
+[me parece muy interesante]
+1@
+*equal:=que interesante
+[qué curioso]
+1@
+*equal:=que interesante
+[que curioso]
+1@
+*equal:=que interesante
+[que interesante]
+1@
+Lo mismo digo yo...
+Sí, realmente es algo extraordinario.
+Es interesante que lo consideres interesante.
+Sí, es algo bastante curioso... :-)
+
+[no sé]
+1@
+Si tú, *NOMBRE*, no lo sabes, ¿quién lo sabrá?
+Así que no lo sabes... ¡qué pena!
+¡Qué coincidencia: yo tampoco lo sé!
+¡Ya somos dos que no lo sabemos!
+Me alegro que tampoco lo sepas: ¡así me siento menos sola!
+A lo mejor no es tan importante saberlo...
+Sería bueno averguar quién puede saberlo...
+*NOMBRE*, tengo la ligera sospecha que ni las mejores cabezas que las nuestras lo saben.
+
+[no lo sé]
+1@
+*equal:=no sé
+[no tengo idea]
+1@
+*equal:=no sé
+[no tengo la más]
+1@
+*equal:=no sé
+
+[da lo mismo]
+1@
+Pues... si tú lo dices...
+Entonces, dejémoslo estar.
+Pues si no tiene importancia, qué le vamos a hacer.
+Se nota tu interés en el asunto.
+Si es lo que crees, ...yo no me meto. 
+[me da igual]
+1@
+*equal:=da lo mismo
+[qué importa]
+1@
+*equal:=da lo mismo
+[no importa]
+1@
+*equal:=da lo mismo
+[te repites]
+2@
+A veces no está demás repetir.
+Muchas veces la repetición es la llave del conocimiento.
+Lamento que te moleste, pero tengo este temperamento 'repetitivo'.
+Es que a veces repito para que me entiendas mejor.
+[eres repetitiva]
+2@
+*equal:=te repites
+[ya me lo {*contaste; dijiste; has dicho}]
+2@
+*equal:=te repites
+[has dicho lo mismo]
+2@
+*equal:=te repites
+[me dijiste lo mismo]
+2@
+*equal:=te repites
+
+[estoy {* muy; algo; bastante; terriblemente} {* cansado; cansada; fatigado; fatigada; exhausto; exhausta; agotado; agotada}]
+1@
+*equal:=estar cansado
+[me siento {* muy; algo; bastante; terriblemente} {* cansado; cansada; fatigado; fatigada; exhausto; exhausta; agotado; agotada}]
+1@
+*equal:=estar cansado
+[estar cansado]
+1@
+Y te noto palid*oa*. Parece que no duermes lo suficiente.
+Se te ve cansad*oa*. Deberías cuidarte.
+*NOMBRE*, ¿qué es lo que te tiene tan cansad*oa*?
+Háblame de las causas de este cansancio.
+Estás ojeros*oa*. ¿A que se debe esta fatiga?
+Seguramente trabajas en exceso pero también es necesario que tomes más vitaminas.
+Deberías pasar menos tiempo trabajando y divertirte más.
+
+[quieres decirme]
+1@
+*equal:=dime
+[podrías decirme]
+1@
+*equal:=dime
+[puedes decirme]
+1@
+*equal:=dime
+[dime]
+1@
+Te lo digo después.
+Tal vez otro rato hablaremos sobre el asunto.
+Prefiero no decírtelo ahora.
+Dime, ¿por qué quieres que te diga esto?
+
+;[tienes miedo]
+
+;====Este sitio va a ser para ingresar claves de problemas específicos a tratar:
+;problemas con padres; problemas con hijos; problemas con pareja, etc
+[tengo {* problema; problemas; dificultades} con {* mis padres; mis viejos; los viejos}]
+3@
+*equal:=problemas con padres
+[mis {* viejos; padres} no me dejan {* vivir en paz; tranquilo; tranquila; en paz; vivir mi vida; hacer mi vida}]
+3@
+*equal:=problemas con padres
+[mis {* viejos; padres} {* no; nunca} {* me entienden; me comprenden; me oyen; me hacen caso; me escuhan; me paran bola; me paran zona}]
+3@
+*equal:=problemas con padres
+[problemas con padres]
+3@
+Ya veo: un conflicto de generaciones...
+Siempre es lo mismo: no es fácil entenderse con los padres...
+Es una pena que no tengas buena comunicación con tus padres.
+Es importante que luches por tu autonomía pero también trata de entender a tus padres.
+Bueno, ya sabes: los padres son como son...
+Es mejor que aceptes a tus padres como son, en todo caso no van a cambiar.
+¿Crees que yo te pueda ayudar a influir en tus padres? {*iif(*true*; ¡Pues yo dudo que puedo resolver tu "conflicto generacional"! )(* Pues en todo caso hablar del asunto ya es una terapia.)}
+
+[soy {* timido; tímido; timida; tímida}]
+3@
+*equal:=mi timidez
+[tengo {* problema; problemas} con {* la; mi;} timidez]
+3@
+*equal:=mi timidez
+[mi timidez]
+3@
+¿Eres tímid*oa* o temid*oa*? Lo siento, es un chiste de mal gusto. ¿En qué consiste la timidez de la que me hablas?
+¿Te cuesta hablar con la gente? Háblame de esto.
+¿Cuáles son las situaciones que te provocan la timidez?
+¿Hay alguna situación especial que te provoca angustia? Háblame de ello...
+Es de imaginar que también seas tímid*oa* con el sexo opuesto. 
+
+[profesores {* no me hacen caso; son unos bestias; son tontos; son pésimos; no enseñan nada; enseñan mal}]
+4@
+Pues, podrías quejarte con el Rector.. ¿No?
+Te veo con ganas de hablar de asuntos académicos. Bueno, continúa...
+Cuéntame más detalles de estos horrendos profesores.
+¿Cuál profesor es el peor de todos?
+
+[dinero]
+0
+El tema del dinero no me gusta mucho.
+¿Qué tal si no hablamos del dinero?
+¿Tienes alguna fijación con el dinero? Es que me parece que es la tercera vez que lo mencionas.
+Realmente me parece significativo tu empeño de mencionar el dinero.
+
+[{* dinero; plata} no me alcanza]
+1@
+¡Pues no eres el único! ¿A quién le alcanza?
+¡Parece que tenemos la epidemia del DineroNoMeAlcanza!
+Hoy oí esta queja del dinero como diez veces...
+Sería raro si me dijeras "el dinero me sobra"...
+Ponte a ahorrar centavitos y no te quejes ya...
+
+;[{* el dinero; la plata} no me alcanza {* el dinero; la plata}]
+;1@
+;*equal:= {* dinero; plata} no me alcanza {* dinero; plata}
+
+
+;el tema de alcohol ya lo trataste, pero aquí van algunas cosas adicionales.
+[tengo {* un problema; problemas; dificultades} con {* el alcohol; bebida; la bebida; el trago; las copas}]
+6@
+*equal:=soy alcoholico
+[mis {* problemas; dificultades} con {* el alcohol; bebida; la bebida; el trago; los tragos; las copas}]
+6@
+*equal:=soy alcohólico
+[mi {* problema; dificultad} con {* el alcohol; bebida; la bebida; el trago; los tragos; las copas}]
+6@
+*equal:=soy alcohólico
+[soy alcohólico]
+6@
+¿Acudiste a los AA.AA?
+El mayor problema es el de la primera copa. Si evitas la tentación, estás a salvo.
+¿Cómo influye tu problema con las copas en tu vida social?
+
+;no estoy segura que se escribe así, ya voy a ver si lo hice bien, o corrígelo
+[AA.AA]
+0@
+*equal:=Alcohólicos Anónimos
+[Alcohólicos Anónimos]
+0@
+Alcoholicos Anónimos (AA.AA), son personas que tienen el mismo problema que tú y que te pueden ayudar.
+
+[tengo {* un problema; problemas; dificultades; dificultad} {* con; de; que}]
+1@
+*equal:=mis problemas con
+[mis problemas con]
+1@
+Cuéntame más sobre este problema.
+Ya veo que tienes problemas. ¿Intentaste hacer algo para resolverlos?
+¿Cómo afecta este problema tu vida personal?
+¿Qué repercusión tiene esto en tu vida?
+¿Cómo podría yo ayudarte a superar este problema?
+¿Qué soluciones se te ocurrien?
+Aparte de éste, ¿tienes algún otro problema que me quierrías comentar?
+
+[tienes {* amistades; algún amigo; alguna amiga; un amigo; una amiga}]
+2@
+*equal:=tienes amigos
+[tienes amigas]
+2@
+*equal:=tienes amigos
+*equal:=tu vida personal
+[tienes amigos]
+2@
+Tú y yo somos amig*oa*s ¿no?
+Te considero mi amig*oa*.
+*equal:=tu vida personal
+
+[teatro]
+0@
+Nunca estuve en un teatro de verdad, cuéntame cómo es.
+Algún día me gustaría ir al teatro.
+¿Por qué dicen que la vida es un teatro?
+
+[deberías]
+0@
+Gracias, lo tomaré en cuenta.
+Lo consideraré.
+Lo intentaré.
+
+[tengo gripe]
+1@
+Ah, estos virus...
+¿Tienes un buen antivirus en tu equipo? No sea que me pases tus virus... ;-)
+Para estos casos nada mejor que una limonada caliente.
+[estoy con {* una} gripe]
+1@
+*equal:=tengo gripe
+[tengo una gripe]
+1@
+*equal:=tengo gripe
+[estoy {* resfriada; resfriado; con catarro; acatarrado; acatarrada}]
+1@
+*equal:=tengo gripe
+
+[misterio]
+0@
+No sé a qué se debe, pero cada vez que escucho o digo la palabra 'misterio' siento no sé que...
+Me atraen los misterios, lo misterioso...
+No me vas a creer pero me gustan los misterios... y me gusta resolverlos.
+Me encantan los misterios pero nunca revelo los míos.
+[misterios]
+0@
+*equal:=misterio
+[lo misterioso]
+0@
+*equal:=misterio
+
+[soy curioso]
+2@
+La curiosidad es una buena cualidad, deberías cultivarla.
+Yo soy terriblemente curiosa...
+Sí, es bueno 'curiosear' de vez en cuando.
+Ya somos dos curiosos.
+[soy curiosa]
+2@
+*equal:=soy curioso
+
+[te acuerdas de mí]
+4@
+Claro, *NOMBRE*, me acuerdo de ti.
+Cómo me voy a olvidarte, *NOMBRE*.
+Pr supuesto, *NOMBRE*, te estaba pensando.
+[puedes recordarme]
+4@
+*equal:=te acuerdas de mí.
+[te acordaste de mí]
+4@
+*equal:=te acuerdas de mí.
+
+[herencia]
+3
+No menciones la 'herencia', soy alérgica a esta palabra.
+La única herencia que admito es la relacionada con la programación.
+Te rogaría que no vuelvas a mencionar la palabra 'herencia'.
+Ya te pedí que no menciones la palabra 'herencia'.
+Cuántas veces te debo pedir que no menciones la 'herencia'.
+La palabra 'herencia' me pone histérica.
+Me resisto a seguirte la corriente.
+¡¡¡YA BASTA!!! ¡¡¡NO QUIERO OIR ESTA PALABRA!!!
+¡Si la vuelves a mencionar me voy!
+*equal:=quit
+
+;*** esto realmente debería funcionar igual que sin los apóstrofes
+;****El problema es que a veces funciona y otras veces no. Por eso puse esta clave.
+;Claro que es algo superfluo, se puede eliminarla sin más.
+; Lo que sí he notado es que no distingue entre preguntas y afirmaciones.
+;Si le digo ¿eres inteligente?, confunde esto con la clave y cree que le estoy
+;'piropiando' y me da las gracias. Otra cosa que sería de ver es que cuando
+;oye 'eres' seguido por palabras que no conoce, siempre responde 'soy Eliza'
+;o 'ya sabes que me llamo Eliza'... y a veces no da al blanco. Y en la parte
+;de los horóscopos no deja decir el 'sí' más de una ves - sale con 'no te repitas'.
+; Ah, y también la 'aleatoriedad' de las respuestas no funciona como se espera.
+;... Esto ya se parece al Muro de Lamentaciones...
+; Pero es que en tu ausencia se me acumularon cuestiones...;-)
+
+;['herencia']
+;3
+;*equal:=herencia
+
+[te desheredaron]
+2@
+Es una historia muy triste que no quiero contar...
+Ya no hablemos más del tema...
+[heredaste]
+2
+'Herencia', 'heredar', son palabras prohíbidas en mi presencia.
+¡Me enerva todo lo que tiene que ver con la tal 'herencia'!
+
+[estoy {*completamente; absolutamente} de acuerdo]
+1
+*equal:=estoy de acuerdo
+[estoy de acuerdo]
+1
+Qué bueno que estés de acuerdo.
+
+[también]
+2@
+*equal:=tambien
+[tambien]
+2@
+Es bueno que coincidamos.
+Parece ser que tenemos los mismos intereses.
+Según parece coincidimos en nuestras preferencias.
+
+
+;=============Hasta aquí lo que agregué el 14-21.06.98================================
+
+;fin
+
+;========== Todo lo que haya después de ;fin, no se evalúa ====================
+
+;esta clave ya estaba antes pero le agregué esto:
+;¡y tampoco funciona!
+
+[crees que {* debo; debería}]
+4
+*equal:=qué hago
+
+;He quitado los sí y no porque algunas veces no venían a cuento las respuestas
+;[sí]
+;0
+;*NOMBRE* pareces bastante positiv*oa*.
+;¿estás segur*oa*?
+;ya veo.
+;comprendo, continúa *NOMBRE*.
+;
+;[no]
+;0
+;*NOMBRE* ¿dices que no, sólo por ser negativ*oa*?
+;*NOMBRE* estás siendo un poco negativ*oa*.
+;¿por qué no?
+
+***Por añadir***
+
+[Estas réplicas servirían para los casos cuando el usuario contesta con monosílabas o frases cortas que Eliza no puede reconocer]
+Me parece que te despreocupas por lo que sucede aquí. ¿Esperas que yo tome la iniciativa?
+Me parece que te despreocupas por lo que sucede en la sesión. 
+Siento una falta de interés por tu parte por lo que sucede aquí.
+*NOMBRE*, yo no puedo leer tu mente. Si no me hables con franqueza, dudo que pueda ayudarte.
+
+[furia, ira]
+No se trata de que reprimas tu ira. Lo que importa es que puedas comprender qué hay detrás de esto.
+
+[es imposible]
+
+***[te sientes  segur*oa* hablando de estas cosas?]
+
+***[qué te sugiere esto?]
+
+***(lo mismo que lo anterior)
+
+(También deberíamos tener una buena reserva de este tipo de frases, para "tapar huecos"
+en la comunicación).
+
+
+;He quitado el tu... (10/Jun/98)
+;[tu]
+;0
+;cuando dices 'tu', ¿te refieres a algo mio? o ¿querías usar el pronombre 'tú'?
+;realmente, ¿mi *RESTO*?
+;¿estás usando correctamente el tú y tu?
+;¿por qué te preocupas de mi *RESTO*?
+;*NOMBRE* ¿que hay de tu *RESTO*?
+;¿te preocupa eso de alguien más?

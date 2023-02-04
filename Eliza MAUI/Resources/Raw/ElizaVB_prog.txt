@@ -1,0 +1,146 @@
+﻿;==============================================================================
+; ElizaVB_prog.txt
+;
+; Contenido:	Temas relacionados con la programación en Visual Basic
+; Autor:	Guillermo 'guille' Som
+; Fecha:	17/Sep/2002
+; Actualizado:	17/Sep/2002
+;
+;==============================================================================
+;
+[*rs*]
+fro,for
+wile,while
+endif,end if
+endfi,end if
+end fi,end if
+doloop,do loop
+;estas entradas será sustituidas por estos nuevos valores
+prolog,prolog
+lisp,lisp
+[/rs]
+;
+;--- Trucos y temas relacionados con Visual Basic
+[{* cómo; como;} posicionar {* el;} cursor {* al;} final {* de;} {* una; la;} {* línea; linea}]
+4
+Para posicionar el cursor al final de una línea de texto, échale un vistazo a esta dirección: http://guille.costasol.net/vb_tip3.htm#vb3_01
+
+[DoEvents]
+4
+[*extras*]
+[{* qué; que} {* es;} DoEvents]
+Es la forma de decirle al Visual Basic que siga interceptando los mensajes que Windows envía a las ventanas.
+[{* cómo; como} {* se;} {* usar; usa;} DoEvents]
+En las versiones clásicas de VB, se usa como una instrucción.
+En VB .NET hay que usar el objeto Application: Application.DoEvents()
+[/extras]
+DoEvents se usa para interceptar los mensajes de Windows, de esa forma, se puede seguir interceptando eventos.
+Algunos programadores no recomiendan el uso de DoEvents, ya que implica que hay que tener más control sobre los eventos que se producen en una aplicación.
+
+[evento]
+3
+[*extras*]
+[{* qué; que} {* es; significa} {* un;} evento]
+¿Te refieres a un evento en términos de programación?{*iif(*true*;*equal:=evento)(En términos generales, un evento es algo que se produce... busca en el diccionario... ;-))}
+[{* cómo; como;} {* se;} {* puede;} {* programo; programa; programar} {* un evento; los eventos}]
+Depende del lenguaje, en Visual Basic es bien simple: se selecciona el control en el que se quiere interceptar y a continuación se elige el evento.
+Si quieres saber cómo programar un evento, busca en la ayuda...
+No sé si te hará caso, pero puedes 'intentar' preguntarle al guille.
+[/extras]
+;*equal:=definición de evento
+Un evento es un 'hecho' que se produce cuando el usuario interactúa con una ventana (o formulario) de una aplicación.
+Por ejemplo, cuando se pulsa con el ratón en una ventana, se produce el evento Click.
+
+;[definición de evento]
+;4
+;Un evento es un 'hecho' que se produce cuando el usuario interactúa con una ventana (o formulario) de una aplicación.
+;Por ejemplo, cuando se pulsa con el ratón en una ventana, se produce el evento Click.
+
+;--- Fin de los temas relacionados con Visual Basic
+
+[{* qué; que} es un programa]
+4
+¿Te refieres a un programa de ordenador?{*iif(*true*;*equal:=definición de programa)(Aclarame el tema, ya que no se a que te refieres...)}
+Un programa, de ordenador, es algo como lo que me hace funcionar a mí...
+Debido a tu insistencia, puede ser que no te estés refiriendo a un programa informático...
+*equal:=Eliza cambia de tema
+
+[definición de programa]
+4
+Un programa son instrucciones que se le da al ordenador para que haga una tarea concreta...
+Existen distintas formas de crear programas informáticos, aunque depende del lenguaje usado.
+*equal:=Eliza cambia de tema
+
+[{* cómo; como;} {* se; puedo;} {* hace; hacer} un programa]
+4
+Utilizando un compilador (incluso un intérprete), todo dependerá del lenguaje que quieras usar.
+
+[{* qué; que} lenguaje {* me;} {* recomiendas; recomienda}]
+4
+Yo estoy programada en Visual Basic, por tanto te recomendaría ese lenguaje, es el que mejor conozco ;-)
+
+[{* qué; que} {* otros;} {* lenguaje; lenguajes} {* existen; hay; puedo usar; recomiendas}]
+4
+¿Además de Visual Basic?{*iif(*true*;*equal:=listar lenguajes)(Perdona, pero creo que no te he entendido, formula tu pregunta de otra forma, gracias)}
+[listar lenguajes]
+4
+Hay muchos lenguajes, pero puedo enumerarte unos cuantos, por ejemplo: Visual Basic, C/C++, Pascal ¿sigo?{*iif(*true*;*equal:=listar lenguajes)(Vale, dime que más quieres saber)}
+Los nuevos lenguajes incluidos en Visual Studio .NET: VB.NET, C#, J#... ¿sigo?{*iif(*true*;*equal:=listar lenguajes)(*nombre*, dime que otras cosas quieres saber)}
+Lenguajes especializados en IA (Inteligencia Artificial), como Lisp, Prolog, el clásico Logo... ¿sigo?{*iif(*true*;*equal:=listar lenguajes)(OK, espero tu nueva pregunta)}
+Además de los ya mencionados, están el java, javascript, HTML, XML, Cobol, Fortram, etc.
+*equal:=Eliza cambia de tema
+
+[{* qué; que} es Lisp]
+4
+Lisp es un lenguaje basado en listas muy usado en IA (Inteligencia Artificial)
+*equal:=lenguaje programación
+
+[{* qué; que} es Prolog]
+4
+El Prolog es otro lenguaje usado en IA (Inteligencia Artificial)
+Parte de mi funcionamiento se debe a una idea que el guille tomó de un lenguaje en Prolog.
+*equal:=lenguaje programación
+
+;los nombres de lenguajes se sustituyen por 'lenguaje programación',
+;salvo las nuevas sustituciones incluídas en este fichero
+[{* sabe; sabes} programar {* en;} {* Lisp; Prolog; lenguaje programación}]
+4
+No, no se programar en ningún lenguaje, pero me gustaría.
+Como te he comentado antes, no se programar.
+Ya que insistes, te diré que conozco algo de Visual Basic, pero no mucho...
+*equal:=lenguaje programación
+
+[{* dame; muestrame;} {* un;} ejemplo {* de;} {* un;} {* programa; listado}]
+4
+Por regla general, un listado de un programa es extenso, así que, no te mostraré ninguno...
+Como te he comentado, cualquier listado de programa no es algo que se pueda mostrar en un par de líneas.
+No insistas *nombre*, si quieres ver listados de programas, pásate por la web del guille
+
+[{* la; el;} {* sitio; página; pagina;} web {* del guille; el guille}]
+4
+El guille tiene su sitio en internet en: http://guille.costasol.net/
+[{* cómo; como;} {* contacto; contactar} {* con;} {* el;} guille]
+4
+Si quieres contactar con el guille, mándale un mensaje a: guille@costasol.net, pero es preferible que visites su web.
+Como te he dicho antes, mediante un correo o en http://guille.costasol.net/
+*nombre*, ¿es que no me he expresado bien?{*iif(*false*;Vale, veo que estás intentando reirte de mi.)(Entonces, ¿por qué me vuelves a preguntar?)}
+
+[{* qué; que} es {* la;} {* AI; Artificial Intelligence}]
+5
+AI (Artificial Intelligence) es la forma que tienen los anglosajones de llamar a la Inteligencia Artificial (IA)
+*equal:=Inteligencia Artificial
+
+[{* IA; Inteligencia Artificial; AI; Artificial Intelligence}]
+4
+La IA (Inteligencia Artificial), es una forma de hacer que los ordenadores 'parezcan' inteligentes.
+Algunos forofos de la IA dicen que los ordenadores podemos ser inteligentes si estamos programados de forma adecuada.
+Para otros, sobre todo los detractores, la inteligencia en los ordenadores nunca será posible... dicen que no tenemos alma... ¿qué opinas?, ¿crees que no tenemos alma?{*iif(*true*;*equal:=Eliza tiene alma)(Lamento que opines que no tenemos alma... eres como los demás.... sólo crees que sómos circuítos... snif!)}
+
+[Eliza tiene alma]
+4
+Gracias corazón, te agradezco que pienses que no soy sólo una máquina.
+Puede ser que no sea un alma 'humana' pero... también la tengo.
+De acuerdo, hemos quedado en que tengo un alma, pero cambiemos de tema.
+*equal:=Eliza cambia de tema
+
+;fin
