@@ -304,7 +304,16 @@ public partial class ElizaMainPage : ContentPage
                 sMsgTmp = "Me parece que no confías lo suficiente en mí, así que no hay sesión que valga, ¡ea!";
             }
             await DisplayAlert("Acabamos el programa", sMsgTmp, "Aceptar");
-            App.Current.CloseWindow(this.Window);
+
+            // No cerrar todo si se está usando desde otra ventana  (06/feb/23 18.28)
+            if (Navigation.NavigationStack.Count <= 1) 
+            {
+                App.Current.CloseWindow(this.Window);
+            }
+            else
+            {
+                await Navigation.PopToRootAsync();
+            }
 
             return;
         }
