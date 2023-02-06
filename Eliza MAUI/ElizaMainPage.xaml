@@ -3,7 +3,7 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              x:Class="Eliza_MAUI.ElizaMainPage"
              Appearing="ContentPage_Appearing"
-             Title="ElizaMainPage">
+             Title="Eliza para .NET MAUI usando Cloud Natural Language">
     <ScrollView>
         <StackLayout>
             <!-- Con un margin mínimo de 2 en el StackLayout que está después del Frame

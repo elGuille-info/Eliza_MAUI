@@ -13,7 +13,7 @@ public partial class App : Application
         MainPage = new AppShell();
 	}
 
-    public string Titulo = "Eliza para .NET MAUI usando Cloud Natural Language";
+    public string Titulo = "Pruebas de Google Cloud Natural Language";
 
     // Si se van a tener páginas de navegación no se puede hacer esto, o al menos no cambiar el título.
 
