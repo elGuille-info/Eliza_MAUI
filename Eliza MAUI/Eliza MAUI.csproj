@@ -11,7 +11,17 @@
 		<SingleProject>true</SingleProject>
 		<ImplicitUsings>enable</ImplicitUsings>
 
-		<!-- Display name -->
+        <Title>Eliza MAUI</Title>
+        <Description>Pruebas de Google Cloud Natural Language API
+Eliza y Analizar Textos para .NET MAUI
+Revisión actual del 06/feb/2023</Description>
+        <Authors>Guillermo Som</Authors>
+        <Company>Guille</Company>
+        <Version>1.0</Version>
+        <Copyright>Guillermo Som (Guille), 2023</Copyright>
+
+
+        <!-- Display name -->
 		<ApplicationTitle>Eliza MAUI</ApplicationTitle>
 
 		<!-- App Identifier -->
