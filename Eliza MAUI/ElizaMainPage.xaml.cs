@@ -411,9 +411,7 @@ public partial class ElizaMainPage : ContentPage
         ProcesarEntrada();
     }
 
-    // Funciones adicionales para MaiPage,
-    // antes estaban en fichero separado, para ver si era por eso por lo que no carga en Windows,
-    // pero tampoco lo soluciona.
+    // Funciones adicionales para ElizaMainPage
 
     #region Funciones adicionales para ElizaMainPage
 
