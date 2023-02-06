@@ -1,4 +1,7 @@
+// Si está en otra DLL parece que no lo acepta (06/feb/23 13.33)
+
 using Eliza_gcnl;
+
 
 namespace Eliza_MAUI;
 

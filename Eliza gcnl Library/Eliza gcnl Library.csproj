@@ -1,4 +1,4 @@
-<Project Sdk="Microsoft.NET.Sdk">
+﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
     <TargetFramework>net7.0</TargetFramework>
@@ -7,6 +7,12 @@
     <ImplicitUsings>enable</ImplicitUsings>
     <!--<Nullable>enable</Nullable>-->
     <Nullable>disable</Nullable>
+    <PackageId>Eliza_gcnl_Library</PackageId>
+    <Title>Eliza gcnl Library</Title>
+    <Company>Guille</Company>
+    <Description>Librería para usar las clases de Google Cloud Natural Language para analizar textos</Description>
+    <Copyright>Guillermo Som (Guille), 2023</Copyright>
+    <PackageLicenseExpression>MIT</PackageLicenseExpression>
   </PropertyGroup>
 
     <ItemGroup>

@@ -59,6 +59,15 @@ Revisión actual del 06/feb/2023</Description>
 	</ItemGroup>
 
 	<ItemGroup>
+	  <AndroidResource Remove="Eliza gcnl\**" />
+	  <Compile Remove="Eliza gcnl\**" />
+	  <EmbeddedResource Remove="Eliza gcnl\**" />
+	  <MauiCss Remove="Eliza gcnl\**" />
+	  <MauiXaml Remove="Eliza gcnl\**" />
+	  <None Remove="Eliza gcnl\**" />
+	</ItemGroup>
+
+	<ItemGroup>
         <PackageReference Include="Google.Cloud.Language.V1" Version="3.2.0" />
         <PackageReference Include="Microsoft.Extensions.Logging.Debug" Version="7.0.0" />
 	</ItemGroup>
