@@ -5,6 +5,8 @@ VisualStudioVersion = 17.0.31611.283
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Eliza MAUI", "Eliza MAUI\Eliza MAUI.csproj", "{F014F6F6-41EF-4457-8698-6C911A50BB13}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Eliza gcnl Library", "Eliza gcnl Library\Eliza gcnl Library.csproj", "{A0905397-7514-4295-8260-668C59E5A70C}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -17,6 +19,10 @@ Global
 		{F014F6F6-41EF-4457-8698-6C911A50BB13}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{F014F6F6-41EF-4457-8698-6C911A50BB13}.Release|Any CPU.Build.0 = Release|Any CPU
 		{F014F6F6-41EF-4457-8698-6C911A50BB13}.Release|Any CPU.Deploy.0 = Release|Any CPU
+		{A0905397-7514-4295-8260-668C59E5A70C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{A0905397-7514-4295-8260-668C59E5A70C}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{A0905397-7514-4295-8260-668C59E5A70C}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{A0905397-7514-4295-8260-668C59E5A70C}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
