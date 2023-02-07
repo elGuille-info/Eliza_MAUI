@@ -17,7 +17,7 @@ public partial class ElizaMainPage : ContentPage
     }
 
     private Frases frase = null;
-    private string text;
+    //private string text;
     private bool PrimeraVez;
     private string CopiaSalida;
     //private string CopiaAnalisis;
@@ -64,13 +64,13 @@ public partial class ElizaMainPage : ContentPage
     {
         if (string.IsNullOrEmpty(tmp)) return;
 
-        text = tmp;
+        //text = tmp;
 
         HabilitarBotones(false);
         await Task.Run(() =>
         {
             MostrarAviso("Analizando el texto...", esError: false);
-            frase = Frases.Add(text);
+            frase = Frases.Add(tmp);
             QuitarAviso();
         });
         HabilitarBotones(true);
